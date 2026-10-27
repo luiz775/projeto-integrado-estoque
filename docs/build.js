@@ -343,7 +343,7 @@ add(h2("5.1 Tecnologias e estrutura"));
 add(corpo("O sistema foi desenvolvido em **Python 3** com o microframework **Flask** (FLASK, 2026), banco de dados **SQLite** (SQLITE, 2026) e páginas HTML com CSS simples. O banco é criado a partir do arquivo schema.sql, que reproduz as quatro tabelas do MER, com as restrições de integridade no próprio banco. O código está versionado em repositório Git, no endereço a seguir."));
 add(new Paragraph({
   alignment: AlignmentType.CENTER, spacing: { before: 60, after: 160 },
-  children: [run("Repositório no GitHub: [inserir aqui o link do repositório]", { bold: true })],
+  children: [run("Repositório no GitHub: https://github.com/luiz775/projeto-integrado-estoque", { bold: true })],
 }));
 add(corpo("Para executar, basta instalar as dependências com pip install -r requirements.txt e rodar python app.py. No primeiro uso, o sistema cria o banco e um usuário administrador de demonstração (login admin)."));
 add(codigo(snippets.schema, "Trecho 1: script do banco de dados (schema.sql)"));

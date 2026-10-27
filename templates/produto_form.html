@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}Novo produto{% endblock %}
+{% block conteudo %}
+<section class="card estreito">
+  <h1>Cadastrar produto</h1>
+  <form method="post">
+    <label>Nome
+      <input name="nome" value="{{ request.form.get('nome', '') }}">
+    </label>
+    <label>Código
+      <input name="codigo" value="{{ request.form.get('codigo', '') }}">
+    </label>
+    <label>Preço (R$)
+      <input name="preco" value="{{ request.form.get('preco', '') }}" inputmode="decimal">
+    </label>
+    <label>Estoque inicial
+      <input name="estoque" value="{{ request.form.get('estoque', '0') }}" inputmode="numeric">
+    </label>
+    <label>Estoque mínimo
+      <input name="estoque_minimo" value="{{ request.form.get('estoque_minimo', '5') }}" inputmode="numeric">
+    </label>
+    <button type="submit">Salvar</button>
+  </form>
+</section>
+{% endblock %}

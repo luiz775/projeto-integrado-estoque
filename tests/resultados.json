@@ -1,0 +1,82 @@
+[
+  {
+    "id": "CT01",
+    "descricao": "Acessar a lista de produtos sem estar logado",
+    "esperado": "Sistema redireciona para a tela de login",
+    "obtido": "Redirecionado para /login",
+    "ok": true,
+    "print": "ct01_sem_login.png"
+  },
+  {
+    "id": "CT02",
+    "descricao": "Login com senha incorreta",
+    "esperado": "Mensagem de erro e permanece no login",
+    "obtido": "Mensagem exibida: \"Login ou senha inválidos.\"",
+    "ok": true,
+    "print": "ct02_login_invalido.png"
+  },
+  {
+    "id": "CT03",
+    "descricao": "Login com usuário e senha válidos",
+    "esperado": "Acesso liberado e lista de produtos exibida",
+    "obtido": "Lista de produtos exibida",
+    "ok": true,
+    "print": "ct03_login_valido.png"
+  },
+  {
+    "id": "CT04",
+    "descricao": "Cadastrar produto com dados válidos",
+    "esperado": "Produto salvo e exibido na lista",
+    "obtido": "Mensagem \"Produto cadastrado com sucesso.\" e produto listado",
+    "ok": true,
+    "print": "ct04_cadastro_valido.png"
+  },
+  {
+    "id": "CT05",
+    "descricao": "Cadastrar produto sem preencher o nome",
+    "esperado": "Mensagem de erro e produto não salvo",
+    "obtido": "Mensagem exibida: \"Nome e código são obrigatórios.\"",
+    "ok": true,
+    "print": "ct05_sem_nome.png"
+  },
+  {
+    "id": "CT06",
+    "descricao": "Cadastrar produto com código já existente",
+    "esperado": "Sistema impede o cadastro e avisa",
+    "obtido": "Mensagem exibida: \"Já existe um produto com este código.\"",
+    "ok": true,
+    "print": "ct06_codigo_duplicado.png"
+  },
+  {
+    "id": "CT07",
+    "descricao": "Cadastrar produto com preço igual a zero",
+    "esperado": "Mensagem de erro e produto não salvo",
+    "obtido": "Mensagem exibida: \"O preço deve ser maior que zero.\"",
+    "ok": true,
+    "print": "ct07_preco_zero.png"
+  },
+  {
+    "id": "CT08",
+    "descricao": "Registrar venda de 4 unidades (estoque inicial 20)",
+    "esperado": "Venda salva e estoque do produto reduzido para 16",
+    "obtido": "Mensagem \"Venda registrada. Total: R$ 18,00\"; estoque atual exibido: 16",
+    "ok": true,
+    "print": "ct08_estoque_apos_venda.png"
+  },
+  {
+    "id": "CT09",
+    "descricao": "Vender quantidade maior que o estoque disponível",
+    "esperado": "Sistema impede a venda e informa o estoque disponível",
+    "obtido": "Mensagem exibida: \"Estoque insuficiente. Disponível: 3.\"",
+    "ok": true,
+    "print": "ct09_estoque_insuficiente.png"
+  },
+  {
+    "id": "CT10",
+    "descricao": "Consultar relatório de vendas do dia",
+    "esperado": "Venda aparece na lista e total do dia é R$ 18,00",
+    "obtido": "Venda listada e total R$ 18,00",
+    "ok": true,
+    "print": "ct10_relatorio.png"
+  }
+]

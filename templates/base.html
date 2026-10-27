@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Estoque e Vendas{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  {% if session.get('usuario_id') %}
+  <header>
+    <strong>Estoque e Vendas</strong>
+    <nav>
+      <a href="{{ url_for('produtos') }}">Produtos</a>
+      <a href="{{ url_for('produto_novo') }}">Novo produto</a>
+      <a href="{{ url_for('venda_nova') }}">Nova venda</a>
+      <a href="{{ url_for('relatorio') }}">Relatório</a>
+      <a href="{{ url_for('logout') }}">Sair</a>
+    </nav>
+  </header>
+  {% endif %}
+  <main>
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in msgs %}
+        <div class="msg {{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block conteudo %}{% endblock %}
+  </main>
+</body>
+</html>

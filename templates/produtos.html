@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block titulo %}Produtos{% endblock %}
+{% block conteudo %}
+<section class="card">
+  <h1>Produtos em estoque</h1>
+  {% if produtos %}
+  <table>
+    <thead>
+      <tr><th>Código</th><th>Nome</th><th>Preço</th><th>Estoque</th><th>Situação</th></tr>
+    </thead>
+    <tbody>
+      {% for p in produtos %}
+      <tr>
+        <td>{{ p.codigo }}</td>
+        <td>{{ p.nome }}</td>
+        <td>{{ p.preco | brl }}</td>
+        <td>{{ p.estoque }}</td>
+        <td>
+          {% if p.estoque <= p.estoque_minimo %}
+            <span class="tag baixo">Estoque baixo</span>
+          {% else %}
+            <span class="tag ok">Normal</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>Nenhum produto cadastrado.</p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block titulo %}Relatório de vendas{% endblock %}
+{% block conteudo %}
+<section class="card">
+  <h1>Relatório de vendas</h1>
+  <form method="get" class="linha">
+    <label>Dia
+      <input type="date" name="dia" value="{{ dia }}">
+    </label>
+    <button type="submit">Filtrar</button>
+  </form>
+  {% if itens %}
+  <table>
+    <thead>
+      <tr><th>Venda</th><th>Hora</th><th>Produto</th><th>Qtd</th><th>Unitário</th><th>Subtotal</th></tr>
+    </thead>
+    <tbody>
+      {% for i in itens %}
+      <tr>
+        <td>#{{ i.venda_id }}</td>
+        <td>{{ i.data_hora[11:16] }}</td>
+        <td>{{ i.nome }}</td>
+        <td>{{ i.quantidade }}</td>
+        <td>{{ i.preco_unitario | brl }}</td>
+        <td>{{ i.subtotal | brl }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="5"><strong>Total do dia</strong></td><td><strong>{{ total | brl }}</strong></td></tr>
+    </tfoot>
+  </table>
+  {% else %}
+  <p>Nenhuma venda registrada neste dia.</p>
+  {% endif %}
+</section>
+{% endblock %}

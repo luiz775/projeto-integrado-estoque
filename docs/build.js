@@ -178,8 +178,8 @@ add(h1("1 APRESENTAÇÃO DO TEMA"));
 add(h2("1.1 Sistema escolhido"));
 add(corpo("O sistema escolhido é um **Sistema de Controle de Estoque e Vendas** para pequeno comércio, como lojas de bairro, perfumarias, papelarias e mercearias. Ele substitui o controle feito em caderno ou de memória pelo dono por um sistema web simples, que cadastra os produtos, controla as quantidades em estoque, registra as vendas e mostra um relatório do dia."));
 add(h2("1.2 Justificativa"));
-add(corpo("Pequenos comerciantes costumam ter três problemas parecidos: vender um produto que já acabou, não perceber a tempo que o estoque está baixo e não saber quanto foi vendido no dia. O sistema ataca exatamente esses pontos. O tema também é adequado para o projeto integrado porque permite aplicar, em um único problema real, o levantamento de requisitos, a modelagem com UML e MER, a prototipação de telas, a programação com banco de dados e os testes (SOMMERVILLE, 2018)."));
-add(corpo("Ficam fora do escopo, de propósito, a emissão de nota fiscal, o pagamento online e a integração com marketplaces. Esses itens aumentariam muito a complexidade e não são necessários para demonstrar o processo completo de desenvolvimento em um semestre."));
+add(corpo("Pequenos comerciantes costumam ter três problemas parecidos: vender um produto que já acabou, não perceber a tempo que o estoque está baixo e não saber quanto foi vendido no dia. O sistema ataca exatamente esses pontos. A escolha partiu de um caso real: uma cliente que está montando uma perfumaria e hoje anota à mão as compras, as vendas e o estoque. O tema também é adequado para o projeto integrado porque permite aplicar, em um único problema real, o levantamento de requisitos, a modelagem com UML e MER, a prototipação de telas, a programação com banco de dados e os testes (SOMMERVILLE, 2018)."));
+add(corpo("Ficam fora do escopo, de propósito, a emissão de nota fiscal, o pagamento online, a integração com marketplaces, o registro de compras de mercadoria e o leitor de código de barras. Esses itens aumentariam muito a complexidade e não são necessários para demonstrar o processo completo de desenvolvimento em um semestre."));
 add(h2("1.3 Validação do tema"));
 add(corpo("O Passo 0 exige que o tema atenda a três critérios. A Tabela 1 mostra como o sistema escolhido os cumpre."));
 add(tabela("Validação do tema segundo os critérios do Passo 0",
@@ -197,23 +197,23 @@ add(tabela("Validação do tema segundo os critérios do Passo 0",
       "Aplicação web com Python, Flask e SQLite, sem pagamentos online e sem integrações externas."],
   ]));
 add(h2("1.4 Levantamento de informações"));
-add(corpo("Como o projeto não tem um cliente formal, as necessidades foram levantadas com duas das técnicas sugeridas no Passo 0: a pesquisa de sistemas semelhantes e a experiência própria como cliente de pequenos comércios. O levantamento por observação e entrevista é uma das práticas clássicas da engenharia de requisitos (SOMMERVILLE, 2018). A Tabela 2 registra de onde veio cada informação e qual requisito ela gerou."));
+add(corpo("O levantamento usou duas fontes, registradas na Tabela 2. A principal foi a conversa com uma cliente que está montando uma perfumaria e que hoje anota tudo à mão: as compras, as vendas e o estoque. A partir dessa conversa, propus a ideia de um sistema para facilitar a rotina dela. A segunda fonte foi a pesquisa de um sistema semelhante, o Sistema para Perfumarias (SISTEMA PARA PERFUMARIAS, [s. d.]), para observar que funções esse tipo de sistema oferece. O levantamento por conversa e por análise de sistemas existentes é prática clássica da engenharia de requisitos (SOMMERVILLE, 2018)."));
 add(tabela("Fontes do levantamento e requisitos gerados",
   [2400, 4271, 2400],
-  ["Técnica", "O que foi observado", "Requisitos gerados"],
+  ["Fonte", "O que foi observado", "Requisitos gerados"],
   [
-    ["Pesquisa de sistemas semelhantes",
-      "Sistemas simples de estoque pedem código, nome, preço e quantidade do produto, e destacam produtos com estoque baixo.",
-      "RF02, RF03"],
-    ["Pesquisa de sistemas semelhantes",
-      "Telas de venda pedem apenas o produto e a quantidade, e o sistema calcula o total e atualiza o estoque.",
-      "RF04, RF05, RF06"],
-    ["Experiência como cliente",
-      "O comerciante precisa saber rapidamente quanto vendeu no dia e quais produtos saíram.",
-      "RF07"],
-    ["Experiência como cliente",
-      "O uso acontece no balcão, muitas vezes pelo celular, e o acesso deve ser protegido.",
-      "RNF02, RNF03"],
+    ["Conversa com a cliente",
+      "Ela anota compras, vendas e estoque à mão e precisa saber o que tem em estoque e o que vendeu.",
+      "RF02, RF03, RF04, RF05, RF07"],
+    ["Pesquisa de sistema semelhante",
+      "O sistema pesquisado atualiza o estoque após as vendas e destaca os produtos em estoque crítico. Também registra entrada de mercadorias, o que ficou como evolução.",
+      "RF03, RF05, RF06"],
+    ["Conversa e pesquisa",
+      "Durante o levantamento surgiu a ideia de usar leitor de código de barras, que ficou como evolução.",
+      "Fora do escopo"],
+    ["Decisão de projeto",
+      "O uso acontece no balcão, muitas vezes pelo celular, e o acesso deve ser protegido por login.",
+      "RF01, RNF02, RNF03"],
   ]));
 
 // ===== 2 Fase 1
@@ -414,10 +414,11 @@ add(new Table({ width: { size: 9070, type: WidthType.DXA },
 
 // ===== 7 Considerações finais
 add(h1("7 CONSIDERAÇÕES FINAIS"));
-add(corpo("O projeto permitiu percorrer o ciclo completo de desenvolvimento de um sistema: do levantamento de requisitos até um protótipo testado. Na prática, ficou claro como cada etapa alimenta a seguinte. Os requisitos definiram as classes, as classes viraram tabelas, as tabelas sustentaram o código e os requisitos voltaram a aparecer nos casos de teste."));
-add(corpo("Entre os aprendizados, destaco três. Primeiro, a importância de guardar o preço unitário no item de venda, para que o histórico de vendas não mude quando o preço do produto for alterado. Segundo, a vantagem de colocar regras de integridade no próprio banco, como preço positivo e código único, além das validações no código. Terceiro, o valor de testar também os caminhos de erro, como venda acima do estoque e cadastro duplicado, que são justamente os casos em que um sistema de estoque costuma falhar."));
+add(corpo("O projeto me permitiu percorrer o ciclo completo de desenvolvimento de um sistema: do levantamento de requisitos até um protótipo testado. Na prática, ficou claro como cada etapa alimenta a seguinte. Os requisitos definiram as classes, as classes viraram tabelas, as tabelas sustentaram o código e os requisitos voltaram a aparecer nos casos de teste."));
+add(corpo("A parte mais difícil foi desenhar o que a cliente realmente precisa. Ela descreve a rotina em termos do dia a dia, como anotar compra, venda e estoque à mão, e foi preciso transformar isso em funções concretas, como cadastrar produto, registrar venda e baixar o estoque, além de decidir o que caberia no escopo e o que ficaria para depois."));
+add(corpo("Entre os aprendizados, destaco três. Primeiro, a importância de guardar o preço unitário no item de venda, para que o histórico de vendas não mude quando o preço do produto for alterado. Segundo, a vantagem de colocar regras de integridade no próprio banco, como preço positivo e código único, além das validações no código. Terceiro, o valor de testar também os caminhos de erro, como venda acima do estoque e cadastro duplicado. O alerta de estoque baixo, que eu já conhecia de outros sistemas, foi aplicado aqui e ajuda justamente a evitar a falta de produto."));
 add(corpo("Uma dificuldade encontrada durante os testes foi a mensagem de confirmação da venda, que mostrava o valor total com formatação errada. O defeito só ficou evidente porque o teste passou a conferir o texto exato da mensagem, e foi corrigido com o mesmo formatador de moeda usado nas telas. Outra dificuldade foi decidir o tamanho do escopo: itens como nota fiscal e venda com vários produtos no mesmo carrinho foram deixados de fora para manter o projeto viável."));
-add(corpo("Como limitações, o protótipo registra um produto por venda, tem um único perfil de usuário e não oferece edição ou exclusão de produtos. Como evolução natural, ficam a venda com vários itens, os perfis de acesso (dono e atendente), o relatório por período e a entrada de mercadoria no estoque."));
+add(corpo("Como limitações, o protótipo registra um produto por venda, tem um único perfil de usuário, não registra a compra de mercadoria e não oferece edição ou exclusão de produtos. Se eu fosse refazer, incluiria a entrada de mercadoria e o leitor de código de barras, que surgiu como ideia durante o levantamento. Como evolução, o mais valioso seria permitir que o cliente compre com o próprio cartão pelo site, usando um meio de pagamento online como o Mercado Pago, cuja integração por chave de API eu já conheço. Também ficam como próximos passos a venda com vários itens, os perfis de acesso e o relatório por período."));
 
 // ===== Referências
 add(h1("REFERÊNCIAS"));
@@ -430,6 +431,7 @@ const ref = (t) => new Paragraph({
   "BOOCH, Grady; RUMBAUGH, James; JACOBSON, Ivar. **UML**: guia do usuário. 2. ed. Rio de Janeiro: Elsevier, 2012.",
   "ELMASRI, Ramez; NAVATHE, Shamkant B. **Sistemas de banco de dados**. 7. ed. São Paulo: Pearson, 2018.",
   "FLASK. **Flask documentation**. Pallets Projects, 2026. Disponível em: https://flask.palletsprojects.com. Acesso em: 26 out. 2026.",
+  "SISTEMA **para perfumarias**. [S. l.]: ERP Clound, [s. d.]. Disponível em: https://www.erpclound.com.br/sistema-para-perfumaria/. Acesso em: 26 out. 2026.",
   "SOMMERVILLE, Ian. **Engenharia de software**. 10. ed. São Paulo: Pearson, 2018.",
   "SQLITE. **SQLite documentation**. 2026. Disponível em: https://www.sqlite.org/docs.html. Acesso em: 26 out. 2026.",
 ].forEach((t) => add(ref(t)));

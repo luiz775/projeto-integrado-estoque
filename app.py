@@ -1,4 +1,4 @@
-"""Sistema de Controle de Estoque e Vendas para pequeno comércio.
+"""Sistema de Controle de Estoque e Vendas para Perfumaria.
 
 Projeto Integrado (ADS). Flask + SQLite.
 Funcionalidades principais:
@@ -98,20 +98,25 @@ def index():
 def produto_novo():
     if request.method == "POST":
         nome = request.form.get("nome", "").strip()
+        marca = request.form.get("marca", "").strip()
         codigo = request.form.get("codigo", "").strip()
         try:
             preco = float(request.form.get("preco", "").replace(",", "."))
+            volume = int(request.form.get("volume_ml", ""))
             estoque = int(request.form.get("estoque", "0") or 0)
             minimo = int(request.form.get("estoque_minimo", "5") or 5)
         except ValueError:
-            flash("Preço e quantidades devem ser números válidos.", "erro")
+            flash("Preço, volume e quantidades devem ser números válidos.", "erro")
             return render_template("produto_form.html"), 400
 
-        if not nome or not codigo:
-            flash("Nome e código são obrigatórios.", "erro")
+        if not nome or not marca or not codigo:
+            flash("Nome, marca e código são obrigatórios.", "erro")
             return render_template("produto_form.html"), 400
         if preco <= 0:
             flash("O preço deve ser maior que zero.", "erro")
+            return render_template("produto_form.html"), 400
+        if volume <= 0:
+            flash("O volume deve ser maior que zero.", "erro")
             return render_template("produto_form.html"), 400
         if estoque < 0 or minimo < 0:
             flash("O estoque não pode ser negativo.", "erro")
@@ -120,9 +125,9 @@ def produto_novo():
         db = get_db()
         try:
             db.execute(
-                "INSERT INTO produto (nome, codigo, preco, estoque, estoque_minimo)"
-                " VALUES (?, ?, ?, ?, ?)",
-                (nome, codigo, preco, estoque, minimo),
+                "INSERT INTO produto (nome, marca, volume_ml, codigo, preco,"
+                " estoque, estoque_minimo) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (nome, marca, volume, codigo, preco, estoque, minimo),
             )
             db.commit()
         except sqlite3.IntegrityError:
@@ -207,7 +212,7 @@ def relatorio():
     db = get_db()
     itens = db.execute(
         """
-        SELECT v.id AS venda_id, v.data_hora, p.nome, i.quantidade,
+        SELECT v.id AS venda_id, v.data_hora, p.nome, p.volume_ml, i.quantidade,
                i.preco_unitario, (i.quantidade * i.preco_unitario) AS subtotal
           FROM venda v
           JOIN item_venda i ON i.venda_id = v.id

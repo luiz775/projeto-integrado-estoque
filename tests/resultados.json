@@ -35,7 +35,7 @@
     "id": "CT05",
     "descricao": "Cadastrar produto sem preencher o nome",
     "esperado": "Mensagem de erro e produto não salvo",
-    "obtido": "Mensagem exibida: \"Nome e código são obrigatórios.\"",
+    "obtido": "Mensagem exibida: \"Nome, marca e código são obrigatórios.\"",
     "ok": true,
     "print": "ct05_sem_nome.png"
   },
@@ -57,26 +57,34 @@
   },
   {
     "id": "CT08",
-    "descricao": "Registrar venda de 4 unidades (estoque inicial 20)",
-    "esperado": "Venda salva e estoque do produto reduzido para 16",
-    "obtido": "Mensagem \"Venda registrada. Total: R$ 18,00\"; estoque atual exibido: 16",
+    "descricao": "Cadastrar perfume com volume igual a zero",
+    "esperado": "Mensagem de erro e produto não salvo",
+    "obtido": "Mensagem exibida: \"O volume deve ser maior que zero.\"",
     "ok": true,
-    "print": "ct08_estoque_apos_venda.png"
+    "print": "ct08_volume_zero.png"
   },
   {
     "id": "CT09",
+    "descricao": "Registrar venda de 4 unidades (estoque inicial 20)",
+    "esperado": "Venda salva e estoque do produto reduzido para 16",
+    "obtido": "Mensagem \"Venda registrada. Total: R$ 359,60\"; estoque atual exibido: 16",
+    "ok": true,
+    "print": "ct09_estoque_apos_venda.png"
+  },
+  {
+    "id": "CT10",
     "descricao": "Vender quantidade maior que o estoque disponível",
     "esperado": "Sistema impede a venda e informa o estoque disponível",
     "obtido": "Mensagem exibida: \"Estoque insuficiente. Disponível: 3.\"",
     "ok": true,
-    "print": "ct09_estoque_insuficiente.png"
+    "print": "ct10_estoque_insuficiente.png"
   },
   {
-    "id": "CT10",
+    "id": "CT11",
     "descricao": "Consultar relatório de vendas do dia",
-    "esperado": "Venda aparece na lista e total do dia é R$ 18,00",
-    "obtido": "Venda listada e total R$ 18,00",
+    "esperado": "Venda aparece na lista e total do dia é R$ 359,60",
+    "obtido": "Venda listada e total R$ 359,60",
     "ok": true,
-    "print": "ct10_relatorio.png"
+    "print": "ct11_relatorio.png"
   }
 ]

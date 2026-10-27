@@ -94,13 +94,14 @@ try:
 
         # CT04 cadastro válido
         page.goto(URL + "/produtos/novo")
-        preencher(page, {"nome": "Sabonete Lavanda", "codigo": "SAB001",
-                         "preco": "4,50", "estoque": "20", "estoque_minimo": "5"})
+        preencher(page, {"nome": "Perfume Floral", "marca": "Aurora", "volume_ml": "100",
+                         "codigo": "PER001", "preco": "89,90", "estoque": "20",
+                         "estoque_minimo": "5"})
         foto(page, "ct04_cadastro_preenchido")
         page.click("button[type=submit]")
         m = msg(page)
         corpo = page.inner_text("body")
-        ok = "cadastrado com sucesso" in m and "Sabonete Lavanda" in corpo
+        ok = "cadastrado com sucesso" in m and "Perfume Floral" in corpo
         registrar("CT04", "Cadastrar produto com dados válidos",
                   "Produto salvo e exibido na lista",
                   f'Mensagem "{m}" e produto listado' if ok else "Produto não listado",
@@ -108,14 +109,15 @@ try:
 
         # cadastra segundo produto com estoque baixo para uso nos testes seguintes
         page.goto(URL + "/produtos/novo")
-        preencher(page, {"nome": "Shampoo Neutro", "codigo": "SHA002",
-                         "preco": "12,90", "estoque": "3", "estoque_minimo": "5"})
+        preencher(page, {"nome": "Body Splash Baunilha", "marca": "Aurora",
+                         "volume_ml": "200", "codigo": "BOD002", "preco": "49,90",
+                         "estoque": "3", "estoque_minimo": "5"})
         page.click("button[type=submit]")
 
         # CT05 cadastro sem nome
         page.goto(URL + "/produtos/novo")
-        preencher(page, {"nome": "", "codigo": "XYZ999", "preco": "10",
-                         "estoque": "1", "estoque_minimo": "5"})
+        preencher(page, {"nome": "", "marca": "Aurora", "volume_ml": "50", "codigo": "XYZ999",
+                         "preco": "10", "estoque": "1", "estoque_minimo": "5"})
         page.click("button[type=submit]")
         m = msg(page)
         ok = "obrigatórios" in m
@@ -125,8 +127,9 @@ try:
 
         # CT06 código duplicado
         page.goto(URL + "/produtos/novo")
-        preencher(page, {"nome": "Outro Sabonete", "codigo": "SAB001",
-                         "preco": "5", "estoque": "1", "estoque_minimo": "5"})
+        preencher(page, {"nome": "Outro Perfume", "marca": "Aurora", "volume_ml": "50",
+                         "codigo": "PER001", "preco": "5", "estoque": "1",
+                         "estoque_minimo": "5"})
         page.click("button[type=submit]")
         m = msg(page)
         ok = "Já existe" in m
@@ -136,8 +139,9 @@ try:
 
         # CT07 preço inválido
         page.goto(URL + "/produtos/novo")
-        preencher(page, {"nome": "Produto Teste", "codigo": "TST000",
-                         "preco": "0", "estoque": "1", "estoque_minimo": "5"})
+        preencher(page, {"nome": "Perfume Teste", "marca": "Aurora", "volume_ml": "50",
+                         "codigo": "TST000", "preco": "0", "estoque": "1",
+                         "estoque_minimo": "5"})
         page.click("button[type=submit]")
         m = msg(page)
         ok = "maior que zero" in m
@@ -145,45 +149,57 @@ try:
                   "Mensagem de erro e produto não salvo",
                   f'Mensagem exibida: "{m}"', ok, foto(page, "ct07_preco_zero"))
 
-        # CT08 venda válida com baixa de estoque
+        # CT08 volume inválido
+        page.goto(URL + "/produtos/novo")
+        preencher(page, {"nome": "Perfume Teste", "marca": "Aurora",
+                         "volume_ml": "0", "codigo": "TST001", "preco": "20",
+                         "estoque": "1", "estoque_minimo": "5"})
+        page.click("button[type=submit]")
+        m = msg(page)
+        ok = "volume deve ser maior" in m
+        registrar("CT08", "Cadastrar perfume com volume igual a zero",
+                  "Mensagem de erro e produto não salvo",
+                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct08_volume_zero"))
+
+        # CT09 venda válida com baixa de estoque
         page.goto(URL + "/vendas/nova")
-        page.select_option("[name=produto_id]", label=None, index=1)
+        page.select_option("[name=produto_id]", index=2)
         nome_escolhido = page.eval_on_selector(
             "[name=produto_id]", "e => e.options[e.selectedIndex].text")
         page.fill("[name=quantidade]", "4")
-        foto(page, "ct08_venda_preenchida")
+        foto(page, "ct09_venda_preenchida")
         page.click("button[type=submit]")
         m = msg(page)
         page.goto(URL + "/produtos")
         linhas = page.inner_text("table")
-        # Sabonete: 20 - 4 = 16
-        ok = ("Venda registrada" in m and "R$ 18,00" in m
-              and "Sabonete Lavanda" in linhas and "16" in linhas)
-        registrar("CT08", "Registrar venda de 4 unidades (estoque inicial 20)",
+        # Perfume Floral: 20 - 4 = 16
+        ok = ("Venda registrada" in m and "R$ 359,60" in m
+              and "Perfume Floral" in linhas and "16" in linhas)
+        registrar("CT09", "Registrar venda de 4 unidades (estoque inicial 20)",
                   "Venda salva e estoque do produto reduzido para 16",
                   f'Mensagem "{m}"; estoque atual exibido: 16' if ok
                   else f"Resultado inesperado: {m}",
-                  ok, foto(page, "ct08_estoque_apos_venda"))
+                  ok, foto(page, "ct09_estoque_apos_venda"))
 
-        # CT09 venda acima do estoque
+        # CT10 venda acima do estoque
         page.goto(URL + "/vendas/nova")
-        page.select_option("[name=produto_id]", index=2)
+        page.select_option("[name=produto_id]", index=1)
         page.fill("[name=quantidade]", "50")
         page.click("button[type=submit]")
         m = msg(page)
         ok = "Estoque insuficiente" in m
-        registrar("CT09", "Vender quantidade maior que o estoque disponível",
+        registrar("CT10", "Vender quantidade maior que o estoque disponível",
                   "Sistema impede a venda e informa o estoque disponível",
-                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct09_estoque_insuficiente"))
+                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct10_estoque_insuficiente"))
 
-        # CT10 relatório do dia
+        # CT11 relatório do dia
         page.goto(URL + "/relatorio")
         corpo = page.inner_text("body")
-        ok = "Sabonete Lavanda" in corpo and "R$ 18,00" in corpo
-        registrar("CT10", "Consultar relatório de vendas do dia",
-                  "Venda aparece na lista e total do dia é R$ 18,00",
-                  "Venda listada e total R$ 18,00" if ok else "Total divergente",
-                  ok, foto(page, "ct10_relatorio"))
+        ok = "Perfume Floral" in corpo and "R$ 359,60" in corpo
+        registrar("CT11", "Consultar relatório de vendas do dia",
+                  "Venda aparece na lista e total do dia é R$ 359,60",
+                  "Venda listada e total R$ 359,60" if ok else "Total divergente",
+                  ok, foto(page, "ct11_relatorio"))
 
         # extras para prints do relatório
         page.goto(URL + "/produtos")

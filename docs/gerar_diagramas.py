@@ -92,8 +92,9 @@ def classes():
         ["- id: int", "- quantidade: int", "- precoUnitario: double"],
         ["+ subtotal(): double"])}
   {caixa_classe("Produto",
-        ["- id: int", "- nome: String", "- codigo: String", "- preco: double",
-         "- estoque: int", "- estoqueMinimo: int"],
+        ["- id: int", "- nome: String", "- marca: String", "- volumeMl: int",
+         "- codigo: String", "- preco: double", "- estoque: int",
+         "- estoqueMinimo: int"],
         ["+ cadastrar(): void", "+ baixarEstoque(qtd): void",
          "+ temEstoque(qtd): boolean", "+ estoqueBaixo(): boolean"])}
   Usuario -> Venda [taillabel="1", headlabel="0..*", label="realiza",
@@ -133,6 +134,7 @@ def mer():
                             ("quantidade", "INTEGER"),
                             ("preco_unitario", "REAL")])}
   {tabela_er("PRODUTO", [("PK id", "INTEGER"), ("nome", "TEXT"),
+                         ("marca", "TEXT"), ("volume_ml", "INTEGER"),
                          ("codigo (único)", "TEXT"), ("preco", "REAL"),
                          ("estoque", "INTEGER"), ("estoque_minimo", "INTEGER")])}
   USUARIO -> VENDA [label=" realiza "];
@@ -236,19 +238,20 @@ def wireframes():
         ("campo", 38, "Login"), ("campo", 24, "Senha"), ("botao", 11, "Entrar"),
     ], altura=56)
     wireframe("wf_cadastro", "Tela 2: Cadastro de produto", [
-        ("campo", 100, "Nome"), ("campo", 87, "Código"), ("campo", 74, "Preço (R$)"),
-        ("campo", 61, "Estoque inicial"), ("campo", 48, "Estoque mínimo"),
-        ("botao", 34, "Salvar"),
-    ], altura=118)
+        ("campo", 124, "Perfume"), ("campo", 111, "Marca"),
+        ("campo", 98, "Volume (ml)"), ("campo", 85, "Código"),
+        ("campo", 72, "Preço (R$)"), ("campo", 59, "Estoque inicial"),
+        ("campo", 46, "Estoque mínimo"), ("botao", 32, "Salvar"),
+    ], altura=142)
     wireframe("wf_venda", "Tela 3: Registrar venda", [
         ("campo", 38, "Produto (lista de seleção)"), ("campo", 24, "Quantidade"),
         ("botao", 11, "Confirmar venda"),
     ], altura=56)
     wireframe("wf_lista", "Tela 4: Lista de produtos e estoque", [
-        ("texto", 70, "Código    Nome          Preço     Estoque    Situação"),
+        ("texto", 70, "Código   Perfume   Marca     Vol.   Preço       Est.   Situação"),
         ("linha", 66, ""),
-        ("texto", 58, "SAB001    Sabonete      R$ 4,50      16       Normal"),
-        ("texto", 48, "SHA002    Shampoo      R$ 12,90       3       Estoque baixo"),
+        ("texto", 58, "PER001   Floral      Aurora   100    R$ 89,90    16     Normal"),
+        ("texto", 48, "BOD002   Splash      Aurora   200    R$ 49,90     3     Baixo"),
         ("texto", 38, "..."),
     ], altura=84)
 

@@ -1,4 +1,4 @@
-# Sistema de Controle de Estoque e Vendas
+# Sistema de Controle de Estoque e Vendas para Perfumaria
 
 Projeto Integrado (ADS). Aplicação web em Python, Flask e SQLite.
 
@@ -11,7 +11,7 @@ Acesse http://127.0.0.1:5000. Usuário de demonstração: admin / admin123.
 
 ## Funcionalidades
 
-Login, cadastro de produto, lista de produtos e estoque, registro de venda com baixa de estoque e relatório de vendas do dia.
+Login, cadastro de perfume (nome, marca, volume e preço), lista de produtos e estoque, registro de venda com baixa de estoque e relatório de vendas do dia.
 
 ## Testes
 

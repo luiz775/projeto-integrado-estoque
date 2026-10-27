@@ -176,9 +176,9 @@ const add = (...x) => x.flat(Infinity).forEach((i) => conteudo.push(i));
 // ===== 1 Apresentação do tema
 add(h1("1 APRESENTAÇÃO DO TEMA"));
 add(h2("1.1 Sistema escolhido"));
-add(corpo("O sistema escolhido é um **Sistema de Controle de Estoque e Vendas** para pequeno comércio, como lojas de bairro, perfumarias, papelarias e mercearias. Ele substitui o controle feito em caderno ou de memória pelo dono por um sistema web simples, que cadastra os produtos, controla as quantidades em estoque, registra as vendas e mostra um relatório do dia."));
+add(corpo("O sistema escolhido é um **Sistema de Controle de Estoque e Vendas para Perfumaria**, pensado para uma perfumaria pequena que está começando. Ele substitui o controle feito à mão, em caderno, por um sistema web simples, que cadastra os perfumes com marca e volume, controla as quantidades em estoque, registra as vendas e mostra um relatório do dia."));
 add(h2("1.2 Justificativa"));
-add(corpo("Pequenos comerciantes costumam ter três problemas parecidos: vender um produto que já acabou, não perceber a tempo que o estoque está baixo e não saber quanto foi vendido no dia. O sistema ataca exatamente esses pontos. A escolha partiu de um caso real: uma cliente que está montando uma perfumaria e hoje anota à mão as compras, as vendas e o estoque. O tema também é adequado para o projeto integrado porque permite aplicar, em um único problema real, o levantamento de requisitos, a modelagem com UML e MER, a prototipação de telas, a programação com banco de dados e os testes (SOMMERVILLE, 2018)."));
+add(corpo("Pequenos comerciantes, como os de uma perfumaria, costumam ter três problemas parecidos: vender um perfume que já acabou, não perceber a tempo que o estoque está baixo e não saber quanto foi vendido no dia. O sistema ataca exatamente esses pontos. A escolha partiu de um caso real: uma cliente que está montando uma perfumaria e hoje anota à mão as compras, as vendas e o estoque. O tema também é adequado para o projeto integrado porque permite aplicar, em um único problema real, o levantamento de requisitos, a modelagem com UML e MER, a prototipação de telas, a programação com banco de dados e os testes (SOMMERVILLE, 2018)."));
 add(corpo("Ficam fora do escopo, de propósito, a emissão de nota fiscal, o pagamento online, a integração com marketplaces, o registro de compras de mercadoria e o leitor de código de barras. Esses itens aumentariam muito a complexidade e não são necessários para demonstrar o processo completo de desenvolvimento em um semestre."));
 add(h2("1.3 Validação do tema"));
 add(corpo("O Passo 0 exige que o tema atenda a três critérios. A Tabela 1 mostra como o sistema escolhido os cumpre."));
@@ -188,7 +188,7 @@ add(tabela("Validação do tema segundo os critérios do Passo 0",
   [
     ["Pelo menos 3 funcionalidades distintas",
       "O sistema realiza mais de três ações diferentes.",
-      "Cadastrar produto, registrar venda com baixa de estoque, consultar estoque e gerar relatório de vendas do dia."],
+      "Cadastrar perfume, registrar venda com baixa de estoque, consultar estoque e gerar relatório de vendas do dia."],
     ["Pelo menos 1 consulta a banco de dados",
       "O sistema guarda e recupera informações em banco SQLite.",
       "Listar produtos com estoque e consultar as vendas de um dia, usando junção entre venda, item de venda e produto."],
@@ -224,8 +224,8 @@ add(tabela("Requisitos funcionais", [900, 2400, 5771],
   ["ID", "Nome", "Descrição"],
   [
     ["RF01", "Autenticar usuário", "O sistema deve permitir o acesso somente mediante login e senha válidos."],
-    ["RF02", "Cadastrar produto", "O sistema deve cadastrar produtos com nome, código único, preço, estoque inicial e estoque mínimo."],
-    ["RF03", "Listar produtos e estoque", "O sistema deve listar os produtos com preço e quantidade em estoque, indicando os que estão com estoque baixo."],
+    ["RF02", "Cadastrar produto", "O sistema deve cadastrar perfumes com nome, marca, volume em ml, código único, preço, estoque inicial e estoque mínimo."],
+    ["RF03", "Listar produtos e estoque", "O sistema deve listar os produtos com marca, volume, preço e quantidade em estoque, indicando os que estão com estoque baixo."],
     ["RF04", "Registrar venda", "O sistema deve registrar a venda de um produto em determinada quantidade, calculando o total."],
     ["RF05", "Baixar estoque", "O sistema deve reduzir automaticamente o estoque do produto após cada venda registrada."],
     ["RF06", "Impedir venda sem estoque", "O sistema deve impedir a venda de quantidade maior que o estoque disponível e informar o saldo."],
@@ -239,11 +239,11 @@ add(tabela("Requisitos não funcionais", [900, 1900, 6271],
     ["RNF01", "Desempenho", "O sistema deve responder às operações comuns em até 3 segundos."],
     ["RNF02", "Segurança", "O acesso às telas deve exigir login e as senhas devem ser armazenadas com hash, nunca em texto puro."],
     ["RNF03", "Usabilidade", "A interface deve funcionar no navegador do celular, com layout que se adapta à largura da tela."],
-    ["RNF04", "Integridade dos dados", "O banco deve rejeitar preço menor ou igual a zero, estoque negativo e código de produto repetido, e a venda deve ser gravada em uma única transação."],
+    ["RNF04", "Integridade dos dados", "O banco deve rejeitar preço ou volume menor ou igual a zero, estoque negativo e código de produto repetido, e a venda deve ser gravada em uma única transação."],
     ["RNF05", "Usabilidade", "As mensagens de erro e de sucesso devem ser claras e em português."],
   ]));
 add(h2("2.3 Diagrama de casos de uso"));
-add(corpo("O sistema tem um ator, o **Operador**, que representa o dono ou o atendente do comércio. Os dois usam as mesmas funções, por isso foram tratados como um único ator. A Figura 1 mostra os cinco casos de uso identificados (BOOCH; RUMBAUGH; JACOBSON, 2012)."));
+add(corpo("O sistema tem um ator, o **Operador**, que representa o dono ou o atendente da perfumaria. Os dois usam as mesmas funções, por isso foram tratados como um único ator. A Figura 1 mostra os cinco casos de uso identificados (BOOCH; RUMBAUGH; JACOBSON, 2012)."));
 add(figura("docs/img/casos_de_uso.png", 440, "Diagrama de casos de uso"));
 add(h2("2.4 Descrição dos casos de uso"));
 const uc = (id, nome, objetivo, pre, passos, alt) => [
@@ -261,8 +261,8 @@ add(uc("UC01", "Fazer login", "Acessar o sistema com segurança.",
   "Se login ou senha estiverem incorretos, o sistema exibe a mensagem de erro e permanece na tela de login."));
 add(uc("UC02", "Cadastrar produto", "Incluir um novo produto no estoque.",
   "Operador autenticado.",
-  ["1. O operador abre a tela de novo produto.", "2. Informa nome, código, preço, estoque inicial e estoque mínimo.", "3. Confirma o cadastro.", "4. O sistema valida os dados, grava o produto e exibe a lista atualizada."],
-  "Se algum campo obrigatório estiver vazio, o preço for menor ou igual a zero ou o código já existir, o sistema exibe o erro e não grava."));
+  ["1. O operador abre a tela de novo produto.", "2. Informa nome, marca, volume, código, preço, estoque inicial e estoque mínimo.", "3. Confirma o cadastro.", "4. O sistema valida os dados, grava o produto e exibe a lista atualizada."],
+  "Se algum campo obrigatório estiver vazio, o preço ou o volume for menor ou igual a zero ou o código já existir, o sistema exibe o erro e não grava."));
 add(uc("UC03", "Consultar estoque", "Ver quanto há de cada produto.",
   "Operador autenticado.",
   ["1. O operador abre a lista de produtos.", "2. O sistema lê os produtos no banco.", "3. O sistema exibe preço, quantidade e situação (normal ou estoque baixo)."],
@@ -280,7 +280,7 @@ add(uc("UC05", "Consultar relatório de vendas do dia", "Saber o que foi vendido
 add(h1("3 FASE 2: MODELAGEM DO SISTEMA"));
 add(corpo("A modelagem parte dos requisitos para definir as classes do sistema, as entidades do banco de dados e a troca de mensagens do caso de uso principal. Os diagramas seguem a notação UML descrita por Booch, Rumbaugh e Jacobson (2012), e o modelo de dados segue os conceitos de entidade e relacionamento apresentados por Elmasri e Navathe (2018)."));
 add(h2("3.1 Diagrama de classes"));
-add(corpo("Foram identificadas quatro classes. **Usuario** representa quem acessa o sistema, **Produto** guarda os dados do estoque, **Venda** representa a operação de venda e **ItemVenda** liga a venda ao produto vendido, guardando a quantidade e o preço praticado no momento. O preço unitário é copiado para o item para que o histórico não mude se o preço do produto for alterado depois."));
+add(corpo("Foram identificadas quatro classes. **Usuario** representa quem acessa o sistema, **Produto** guarda os dados do perfume e do estoque (nome, marca, volume, preço e quantidade), **Venda** representa a operação de venda e **ItemVenda** liga a venda ao produto vendido, guardando a quantidade e o preço praticado no momento. O preço unitário é copiado para o item para que o histórico não mude se o preço do produto for alterado depois."));
 add(figura("docs/img/diagrama_classes.png", 600, "Diagrama de classes"));
 add(h2("3.2 Modelo Entidade Relacionamento"));
 add(corpo("O MER tem quatro entidades. Um usuário realiza várias vendas, uma venda contém um ou mais itens e um produto pode aparecer em vários itens. O relacionamento entre venda e produto é de muitos para muitos, resolvido pela entidade ITEM_VENDA."));
@@ -296,8 +296,10 @@ add(dd("USUARIO", [
 ]));
 add(dd("PRODUTO", [
   ["id (PK)", "INTEGER", "Identificador do produto, gerado automaticamente.", "Sim"],
-  ["nome", "TEXT", "Nome do produto.", "Sim"],
-  ["codigo", "TEXT", "Código do produto, único.", "Sim"],
+  ["nome", "TEXT", "Nome do perfume.", "Sim"],
+  ["marca", "TEXT", "Marca do perfume.", "Sim"],
+  ["volume_ml", "INTEGER", "Volume do frasco em mililitros, maior que zero.", "Sim"],
+  ["codigo", "TEXT", "Código do produto, único (pode ser o código de barras).", "Sim"],
   ["preco", "REAL", "Preço de venda, maior que zero.", "Sim"],
   ["estoque", "INTEGER", "Quantidade disponível, não pode ser negativa.", "Sim"],
   ["estoque_minimo", "INTEGER", "Quantidade a partir da qual o produto é marcado como estoque baixo.", "Sim"],
@@ -329,13 +331,13 @@ add(figura("docs/img/wf_login.png", 270, "Wireframe da tela de login"));
 add(corpo("Permite que o operador entre no sistema. Ele informa login e senha e clica em Entrar. Atende ao requisito RF01 e ao UC01."));
 add(h2("4.2 Tela 2: Cadastro de produto"));
 add(figura("docs/img/wf_cadastro.png", 230, "Wireframe da tela de cadastro de produto"));
-add(corpo("Serve para incluir um produto. O operador preenche nome, código, preço, estoque inicial e estoque mínimo, e clica em Salvar. Atende ao requisito RF02 e ao UC02."));
+add(corpo("Serve para incluir um produto. O operador preenche nome, marca, volume, código, preço, estoque inicial e estoque mínimo, e clica em Salvar. Atende ao requisito RF02 e ao UC02."));
 add(h2("4.3 Tela 3: Registrar venda"));
 add(figura("docs/img/wf_venda.png", 270, "Wireframe da tela de registro de venda"));
 add(corpo("Serve para vender. O operador escolhe o produto em uma lista, informa a quantidade e confirma a venda. Atende aos requisitos RF04 a RF06 e ao UC04."));
 add(h2("4.4 Tela 4: Lista de produtos e estoque"));
 add(figura("docs/img/wf_lista.png", 250, "Wireframe da tela de lista de produtos e estoque"));
-add(corpo("Mostra todos os produtos com preço, quantidade e situação, destacando os de estoque baixo. É a tela inicial depois do login. Atende ao requisito RF03 e ao UC03. O relatório de vendas (UC05) segue o mesmo padrão de tabela."));
+add(corpo("Mostra todos os produtos com marca, volume, preço, quantidade e situação, destacando os de estoque baixo. É a tela inicial depois do login. Atende ao requisito RF03 e ao UC03. O relatório de vendas (UC05) segue o mesmo padrão de tabela."));
 
 // ===== 5 Fase 4
 add(h1("5 FASE 4: DESENVOLVIMENTO"));
@@ -349,7 +351,7 @@ add(corpo("Para executar, basta instalar as dependências com pip install -r req
 add(codigo(snippets.schema, "Trecho 1: script do banco de dados (schema.sql)"));
 
 add(h2("5.2 Funcionalidade 1: Cadastro de produto"));
-add(corpo("Esta funcionalidade grava um novo produto no banco. O sistema valida o conteúdo recebido antes de gravar: nome e código obrigatórios, preço maior que zero, quantidades numéricas e não negativas. Se o código já existir, a restrição de unicidade do banco rejeita a gravação e o usuário recebe uma mensagem. Corresponde ao RF02 e ao UC02."));
+add(corpo("Esta funcionalidade grava um novo produto no banco. O sistema valida o conteúdo recebido antes de gravar: nome, marca e código obrigatórios, preço e volume maiores que zero, quantidades numéricas e não negativas. Se o código já existir, a restrição de unicidade do banco rejeita a gravação e o usuário recebe uma mensagem. Corresponde ao RF02 e ao UC02."));
 add(codigo(snippets.cadastro, "Trecho 2: função produto_novo (app.py)"));
 nFig += 0;
 add(figura("tests/evidencias/ct04_cadastro_preenchido.png", 400, "Cadastro de produto: formulário preenchido"));
@@ -358,16 +360,16 @@ add(figura("tests/evidencias/ct04_cadastro_valido.png", 400, "Cadastro de produt
 add(h2("5.3 Funcionalidade 2: Registro de venda com baixa de estoque"));
 add(corpo("Esta funcionalidade lê o produto no banco, confere se há estoque suficiente e, em caso positivo, grava a venda e o item e reduz o estoque na mesma transação. Se algo falhar durante a gravação, o sistema desfaz tudo com rollback, para que o estoque nunca fique inconsistente. Corresponde aos requisitos RF04, RF05 e RF06 e ao UC04."));
 add(codigo(snippets.venda, "Trecho 3: função venda_nova (app.py)"));
-add(figura("tests/evidencias/ct08_venda_preenchida.png", 400, "Registro de venda: produto e quantidade informados"));
-add(figura("tests/evidencias/ct08_estoque_apos_venda.png", 400, "Lista de produtos após a venda: estoque do sabonete reduzido de 20 para 16"));
+add(figura("tests/evidencias/ct09_venda_preenchida.png", 400, "Registro de venda: produto e quantidade informados"));
+add(figura("tests/evidencias/ct09_estoque_apos_venda.png", 400, "Lista de produtos após a venda: estoque do perfume reduzido de 20 para 16"));
 add(h2("5.4 Funcionalidade complementar: relatório de vendas"));
 add(corpo("Além das duas funcionalidades obrigatórias, o sistema também implementa a consulta do relatório diário, que usa um SELECT com junção entre venda, item de venda e produto, filtrando pela data, e soma o total do dia (RF07)."));
-add(figura("tests/evidencias/ct10_relatorio.png", 400, "Relatório de vendas do dia com o total"));
+add(figura("tests/evidencias/ct11_relatorio.png", 400, "Relatório de vendas do dia com o total"));
 
 // ===== 6 Fase 5
 add(h1("6 FASE 5: TESTES"));
 add(h2("6.1 Plano de testes"));
-add(corpo("Foram definidos dez casos de teste sobre as funcionalidades programadas, incluindo situações de sucesso e de erro. O resultado esperado de cada caso foi escrito antes da execução. Os testes foram executados no sistema em funcionamento, controlando um navegador por script (Playwright), que também gerou os prints de evidência (SOMMERVILLE, 2018). Em todos os casos o resultado obtido foi igual ao esperado."));
+add(corpo("Foram definidos onze casos de teste sobre as funcionalidades programadas, incluindo situações de sucesso e de erro. O resultado esperado de cada caso foi escrito antes da execução. Os testes foram executados no sistema em funcionamento, controlando um navegador por script (Playwright), que também gerou os prints de evidência (SOMMERVILLE, 2018). Em todos os casos o resultado obtido foi igual ao esperado."));
 add(tabela("Plano e execução dos casos de teste",
   [800, 2500, 2300, 2371, 1100],
   ["ID", "O que foi testado", "Resultado esperado", "Resultado obtido", "Situação"],

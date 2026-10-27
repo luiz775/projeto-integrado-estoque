@@ -10,6 +10,8 @@ CREATE TABLE IF NOT EXISTS usuario (
 CREATE TABLE IF NOT EXISTS produto (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
+    marca TEXT NOT NULL,
+    volume_ml INTEGER NOT NULL CHECK (volume_ml > 0),
     codigo TEXT NOT NULL UNIQUE,
     preco REAL NOT NULL CHECK (preco > 0),
     estoque INTEGER NOT NULL DEFAULT 0 CHECK (estoque >= 0),

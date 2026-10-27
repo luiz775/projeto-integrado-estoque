@@ -6,13 +6,15 @@
   {% if produtos %}
   <table>
     <thead>
-      <tr><th>Código</th><th>Nome</th><th>Preço</th><th>Estoque</th><th>Situação</th></tr>
+      <tr><th>Código</th><th>Perfume</th><th>Marca</th><th>Volume</th><th>Preço</th><th>Estoque</th><th>Situação</th></tr>
     </thead>
     <tbody>
       {% for p in produtos %}
       <tr>
         <td>{{ p.codigo }}</td>
         <td>{{ p.nome }}</td>
+        <td>{{ p.marca }}</td>
+        <td>{{ p.volume_ml }} ml</td>
         <td>{{ p.preco | brl }}</td>
         <td>{{ p.estoque }}</td>
         <td>

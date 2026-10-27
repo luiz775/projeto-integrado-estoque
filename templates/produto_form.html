@@ -4,8 +4,14 @@
 <section class="card estreito">
   <h1>Cadastrar produto</h1>
   <form method="post">
-    <label>Nome
+    <label>Perfume
       <input name="nome" value="{{ request.form.get('nome', '') }}">
+    </label>
+    <label>Marca
+      <input name="marca" value="{{ request.form.get('marca', '') }}">
+    </label>
+    <label>Volume (ml)
+      <input name="volume_ml" value="{{ request.form.get('volume_ml', '') }}" inputmode="numeric">
     </label>
     <label>Código
       <input name="codigo" value="{{ request.form.get('codigo', '') }}">

@@ -24,7 +24,7 @@ app.config["SECRET_KEY"] = "chave-de-desenvolvimento"
 app.config["DATABASE"] = os.environ.get("PDV_DB", os.path.join(BASE_DIR, "pdv.db"))
 
 
-# ---------------------------------------------------------------- banco
+# banco
 def get_db():
     if "db" not in g:
         g.db = sqlite3.connect(app.config["DATABASE"])
@@ -64,7 +64,7 @@ def login_required(view):
     return wrapped
 
 
-# ---------------------------------------------------------------- RF01 login
+# RF01 login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -92,7 +92,7 @@ def index():
     return redirect(url_for("produtos"))
 
 
-# ------------------------------------------- RF02 cadastrar / RF03 listar
+# RF03 listar
 @app.route("/produtos/novo", methods=["GET", "POST"])
 @login_required
 def produto_novo():
@@ -147,7 +147,7 @@ def produtos():
     return render_template("produtos.html", produtos=lista)
 
 
-# ------------------------------------------------------ RF04 registrar venda
+# RF04 registrar venda
 @app.route("/vendas/nova", methods=["GET", "POST"])
 @login_required
 def venda_nova():
@@ -217,7 +217,7 @@ def venda_nova():
     return render_template("venda_form.html", produtos=lista)
 
 
-# ------------------------------------------------------ RF05 relatório do dia
+# RF05 relatório do dia
 @app.route("/relatorio")
 @login_required
 def relatorio():

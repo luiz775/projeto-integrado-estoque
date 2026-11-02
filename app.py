@@ -92,7 +92,7 @@ def index():
     return redirect(url_for("produtos"))
 
 
-# RF03 listar
+# RF02 cadastrar e RF03 listar
 @app.route("/produtos/novo", methods=["GET", "POST"])
 @login_required
 def produto_novo():

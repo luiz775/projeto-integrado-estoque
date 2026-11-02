@@ -19,3 +19,7 @@ Login, cadastro de perfume (nome, marca, volume e preço), lista de produtos e e
     python tests/run_tests.py
 
 Gera os prints em tests/evidencias e o resultado em tests/resultados.json.
+
+Teste de concorrência (várias vendas simultâneas do mesmo produto):
+
+    python tests/test_concorrencia.py

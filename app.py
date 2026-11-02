@@ -181,6 +181,23 @@ def venda_nova():
         total = round(produto["preco"] * quantidade, 2)
         agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         try:
+            # Baixa condicional: só altera se ainda houver saldo. Se duas vendas
+            # do mesmo produto chegarem juntas, apenas a que couber é gravada.
+            baixa = db.execute(
+                "UPDATE produto SET estoque = estoque - ?"
+                " WHERE id = ? AND estoque >= ?",
+                (quantidade, produto_id, quantidade),
+            )
+            if baixa.rowcount == 0:
+                db.rollback()
+                atual = db.execute(
+                    "SELECT estoque FROM produto WHERE id = ?", (produto_id,)
+                ).fetchone()
+                lista = db.execute(
+                    "SELECT * FROM produto ORDER BY nome"
+                ).fetchall()
+                flash(f"Estoque insuficiente. Disponível: {atual['estoque']}.", "erro")
+                return render_template("venda_form.html", produtos=lista), 400
             cur = db.execute(
                 "INSERT INTO venda (data_hora, total, usuario_id) VALUES (?, ?, ?)",
                 (agora, total, session["usuario_id"]),
@@ -189,10 +206,6 @@ def venda_nova():
                 "INSERT INTO item_venda (venda_id, produto_id, quantidade,"
                 " preco_unitario) VALUES (?, ?, ?, ?)",
                 (cur.lastrowid, produto_id, quantidade, produto["preco"]),
-            )
-            db.execute(
-                "UPDATE produto SET estoque = estoque - ? WHERE id = ?",
-                (quantidade, produto_id),
             )
             db.commit()
         except sqlite3.Error:

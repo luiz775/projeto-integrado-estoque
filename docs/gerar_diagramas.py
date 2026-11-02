@@ -77,9 +77,9 @@ def caixa_classe(nome, atributos, metodos):
 
 def classes():
     codigo = f"""digraph G {{
-  rankdir=TB; nodesep=1.4; ranksep=1.0;
-  node [shape=plaintext, fontname="Helvetica", fontsize=11];
-  edge [fontname="Helvetica", fontsize=10, arrowhead=none];
+  rankdir=TB; nodesep=0.9; ranksep=1.1;
+  node [shape=plaintext, fontname="Helvetica", fontsize=13];
+  edge [fontname="Helvetica", fontsize=12, arrowhead=none];
   {{ rank=same; Usuario; Venda; }}
   {{ rank=same; Produto; ItemVenda; }}
   {caixa_classe("Usuario",
@@ -98,11 +98,11 @@ def classes():
         ["+ cadastrar(): void", "+ baixarEstoque(qtd): void",
          "+ temEstoque(qtd): boolean", "+ estoqueBaixo(): boolean"])}
   Usuario -> Venda [taillabel="1", headlabel="0..*", label="realiza",
-                    labeldistance=2.2];
+                    labeldistance=3];
   Venda -> ItemVenda [taillabel="1", headlabel="1..*", label="possui",
-                      labeldistance=2.2, arrowtail=diamond, dir=back];
-  ItemVenda -> Produto [taillabel="0..*", headlabel="1", label="refere-se a",
-                        labeldistance=2.2];
+                      labeldistance=3, arrowtail=diamond, dir=back];
+  Produto -> ItemVenda [taillabel="1", headlabel="0..*", label="refere-se a",
+                        labeldistance=3];
 }}"""
     dot("diagrama_classes", codigo)
 
@@ -121,10 +121,12 @@ def tabela_er(nome, campos):
 
 def mer():
     codigo = f"""digraph G {{
-  rankdir=LR; nodesep=0.7; ranksep=1.3;
-  node [shape=plaintext, fontname="Helvetica", fontsize=11];
-  edge [fontname="Helvetica", fontsize=10, dir=both,
+  rankdir=TB; nodesep=1.0; ranksep=1.2;
+  node [shape=plaintext, fontname="Helvetica", fontsize=13];
+  edge [fontname="Helvetica", fontsize=12, dir=both,
         arrowtail=tee, arrowhead=crowodot];
+  {{ rank=same; USUARIO; VENDA; }}
+  {{ rank=same; PRODUTO; ITEM_VENDA; }}
   {tabela_er("USUARIO", [("PK id", "INTEGER"), ("nome", "TEXT"),
                          ("login (único)", "TEXT"), ("senha_hash", "TEXT")])}
   {tabela_er("VENDA", [("PK id", "INTEGER"), ("data_hora", "TEXT"),
@@ -146,7 +148,7 @@ def mer():
 
 # ------------------------------------------------------------- sequência
 def sequencia():
-    fig, ax = plt.subplots(figsize=(11, 8), dpi=160)
+    fig, ax = plt.subplots(figsize=(8, 6.6), dpi=200)
     ax.set_xlim(0, 110)
     ax.set_ylim(0, 84)
     ax.axis("off")
@@ -154,7 +156,7 @@ def sequencia():
     atores = [("Operador", 12), ("Tela de venda\n(navegador)", 40),
               ("Sistema\n(Flask)", 70), ("Banco de dados\n(SQLite)", 98)]
     for nome, x in atores:
-        ax.add_patch(FancyBboxPatch((x - 9, 74), 18, 7, boxstyle="round,pad=0.3",
+        ax.add_patch(FancyBboxPatch((x - 10, 74), 20, 7, boxstyle="round,pad=0.3",
                                     fc=AZUL_CLARO, ec=AZUL, lw=1.3))
         ax.text(x, 77.5, nome, ha="center", va="center", fontsize=9.5,
                 fontweight="bold")
@@ -169,7 +171,8 @@ def sequencia():
                     arrowprops=dict(arrowstyle="-|>", color="black", lw=1.2,
                                     ls="--" if retorno else "-"))
         ax.text((x1 + x2) / 2, y + 1.1, f"{i}: {texto}", ha="center",
-                fontsize=8.8)
+                fontsize=9.5,
+                bbox=dict(fc="white", ec="none", pad=1.2))
 
     def autochamada(i, x, y, texto):
         ax.plot([x, x + 8, x + 8, x + 0.5], [y, y, y - 4, y - 4],
@@ -177,26 +180,27 @@ def sequencia():
         ax.annotate("", xy=(x, y - 4), xytext=(x + 3, y - 4),
                     arrowprops=dict(arrowstyle="-|>", color="black", lw=1.2))
         ax.text(x + 9.5, y - 2, f"{i}: {texto}", ha="left", va="center",
-                fontsize=8.8)
+                fontsize=9.5)
 
-    msg(1, 0, 1, "escolhe produto e quantidade", 69)
+    msg(1, 0, 1, "escolhe o produto", 69)
     msg(2, 1, 2, "POST /vendas/nova", 63)
-    msg(3, 2, 3, "SELECT produto WHERE id", 57)
-    msg(4, 3, 2, "dados do produto (preço, estoque)", 51, retorno=True)
-    autochamada(5, 70, 46, "valida quantidade <= estoque")
+    msg(3, 2, 3, "SELECT produto", 57)
+    msg(4, 3, 2, "dados do produto", 51, retorno=True)
+    autochamada(5, 70, 46, "confere saldo")
 
     ax.add_patch(Rectangle((6, 9), 98, 32, fill=False, ec="#b04a00", lw=1.1,
                            ls="--"))
     ax.text(8, 38.8, "alt  [estoque suficiente]", fontsize=8.8, color="#b04a00",
             fontweight="bold")
-    msg(6, 2, 3, "INSERT venda e item_venda", 34)
-    msg(7, 2, 3, "UPDATE produto SET estoque = estoque - qtd", 28)
+    msg(6, 2, 3, "UPDATE do estoque", 34)
+    msg(7, 2, 3, "INSERT da venda", 28)
     msg(8, 3, 2, "COMMIT confirmado", 22, retorno=True)
-    msg(9, 2, 1, "mensagem de sucesso com total", 16, retorno=True)
-    msg(10, 1, 0, "exibe: Venda registrada. Total R$", 11, retorno=True)
-    ax.text(8, 5.2, "[estoque insuficiente] sistema retorna a mensagem de erro "
-            "sem gravar nada (passos 6 a 8 não ocorrem)", fontsize=8.3,
-            color="#b04a00", style="italic")
+    msg(9, 2, 1, "mensagem de sucesso", 16, retorno=True)
+    msg(10, 1, 0, "exibe o resultado", 11, retorno=True)
+    ax.text(8, 5.2, "[estoque insuficiente] o UPDATE não altera nenhuma linha, "
+            "a venda é desfeita e o erro é exibido", fontsize=8,
+            color="#b04a00", style="italic",
+            bbox=dict(fc="white", ec="none", pad=1.2))
     fig.savefig(os.path.join(IMG, "diagrama_sequencia.png"),
                 bbox_inches="tight", facecolor="white")
     plt.close(fig)

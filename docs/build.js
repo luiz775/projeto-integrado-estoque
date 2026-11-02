@@ -79,6 +79,7 @@ function legenda(prefixo, n, texto) {
 function figura(arquivo, larguraPx, texto, opcoes = {}) {
   nFig += 1;
   const [w, h] = sizes[arquivo];
+  if (opcoes.maxH) larguraPx = Math.min(larguraPx, Math.round(opcoes.maxH * w / h));
   const alt = Math.round(larguraPx * h / w);
   const img = new Paragraph({
     alignment: AlignmentType.CENTER,
@@ -152,11 +153,13 @@ function tabela(titulo, larguras, cabecalho, linhas) {
 
 function codigo(texto, rotulo) {
   const linhas = texto.split("\n").map((l, i, arr) => new Paragraph({
-    spacing: { after: 0, line: 220 },
+    keepNext: i < arr.length - 1,
+    keepLines: true,
+    spacing: { after: 0, line: 195 },
     shading: { type: ShadingType.CLEAR, fill: "F2F2F2", color: "auto" },
     border: i === 0 ? { top: BORDA } : undefined,
     children: [new TextRun({ text: l === "" ? " " : l, font: "Courier New",
-      size: 16 })],
+      size: 15 })],
   }));
   return [
     new Paragraph({
@@ -239,7 +242,7 @@ add(tabela("Requisitos não funcionais", [900, 1900, 6271],
     ["RNF01", "Desempenho", "O sistema deve responder às operações comuns em até 3 segundos."],
     ["RNF02", "Segurança", "O acesso às telas deve exigir login e as senhas devem ser armazenadas com hash, nunca em texto puro."],
     ["RNF03", "Usabilidade", "A interface deve funcionar no navegador do celular, com layout que se adapta à largura da tela."],
-    ["RNF04", "Integridade dos dados", "O banco deve rejeitar preço ou volume menor ou igual a zero, estoque negativo e código de produto repetido, e a venda deve ser gravada em uma única transação."],
+    ["RNF04", "Integridade dos dados", "O banco deve rejeitar preço ou volume menor ou igual a zero, estoque ou estoque mínimo negativo e código de produto repetido, e a venda deve ser gravada em uma única transação."],
     ["RNF05", "Usabilidade", "As mensagens de erro e de sucesso devem ser claras e em português."],
   ]));
 add(h2("2.3 Diagrama de casos de uso"));
@@ -281,10 +284,10 @@ add(h1("3 FASE 2: MODELAGEM DO SISTEMA"));
 add(corpo("A modelagem parte dos requisitos para definir as classes do sistema, as entidades do banco de dados e a troca de mensagens do caso de uso principal. Os diagramas seguem a notação UML descrita por Booch, Rumbaugh e Jacobson (2012), e o modelo de dados segue os conceitos de entidade e relacionamento apresentados por Elmasri e Navathe (2018)."));
 add(h2("3.1 Diagrama de classes"));
 add(corpo("Foram identificadas quatro classes. **Usuario** representa quem acessa o sistema, **Produto** guarda os dados do perfume e do estoque (nome, marca, volume, preço e quantidade), **Venda** representa a operação de venda e **ItemVenda** liga a venda ao produto vendido, guardando a quantidade e o preço praticado no momento. O preço unitário é copiado para o item para que o histórico não mude se o preço do produto for alterado depois."));
-add(figura("docs/img/diagrama_classes.png", 600, "Diagrama de classes"));
+add(figura("docs/img/diagrama_classes.png", 560, "Diagrama de classes"));
 add(h2("3.2 Modelo Entidade Relacionamento"));
 add(corpo("O MER tem quatro entidades. Um usuário realiza várias vendas, uma venda contém um ou mais itens e um produto pode aparecer em vários itens. O relacionamento entre venda e produto é de muitos para muitos, resolvido pela entidade ITEM_VENDA."));
-add(figura("docs/img/mer.png", 600, "Modelo Entidade Relacionamento (MER)"));
+add(figura("docs/img/mer.png", 560, "Modelo Entidade Relacionamento (MER)"));
 add(h2("3.3 Dicionário de dados"));
 const dd = (nome, linhas) => tabela(`Dicionário de dados da entidade ${nome}`,
   [1900, 1300, 4271, 1600], ["Campo", "Tipo", "Descrição", "Obrigatório"], linhas);
@@ -302,7 +305,7 @@ add(dd("PRODUTO", [
   ["codigo", "TEXT", "Código do produto, único (pode ser o código de barras).", "Sim"],
   ["preco", "REAL", "Preço de venda, maior que zero.", "Sim"],
   ["estoque", "INTEGER", "Quantidade disponível, não pode ser negativa.", "Sim"],
-  ["estoque_minimo", "INTEGER", "Quantidade a partir da qual o produto é marcado como estoque baixo.", "Sim"],
+  ["estoque_minimo", "INTEGER", "Quantidade a partir da qual o produto é marcado como estoque baixo, não pode ser negativa.", "Sim"],
 ]));
 add(dd("VENDA", [
   ["id (PK)", "INTEGER", "Identificador da venda, gerado automaticamente.", "Sim"],
@@ -318,8 +321,8 @@ add(dd("ITEM_VENDA", [
   ["preco_unitario", "REAL", "Preço do produto no momento da venda.", "Sim"],
 ]));
 add(h2("3.4 Diagrama de sequência"));
-add(corpo("O diagrama de sequência foi feito para o caso de uso principal, **Registrar venda** (UC04). Ele mostra que o sistema busca o produto, confere o estoque e só então grava a venda e reduz o estoque. Quando o estoque é insuficiente, nenhuma gravação acontece."));
-add(figura("docs/img/diagrama_sequencia.png", 540, "Diagrama de sequência do caso de uso Registrar venda"));
+add(corpo("O diagrama de sequência foi feito para o caso de uso principal, **Registrar venda** (UC04). Ele mostra que o sistema busca o produto, confere o estoque, faz a baixa com um UPDATE condicional e grava a venda na mesma transação. Quando o estoque é insuficiente, o UPDATE não altera nenhuma linha e a venda é desfeita, sem gravar nada."));
+add(figura("docs/img/diagrama_sequencia.png", 580, "Diagrama de sequência do caso de uso Registrar venda"));
 add(h2("3.5 Consistência entre os modelos"));
 add(corpo("Cada classe do diagrama corresponde a uma entidade do MER e a uma tabela do dicionário de dados, com os mesmos atributos. Os requisitos RF02 e RF03 são atendidos pela classe Produto, RF04 a RF06 pelas classes Venda, ItemVenda e Produto, RF07 pela consulta que une Venda, ItemVenda e Produto, e RF01 pela classe Usuario. O diagrama de sequência usa os mesmos objetos e a mesma regra de negócio descrita no requisito RF06."));
 
@@ -354,22 +357,22 @@ add(h2("5.2 Funcionalidade 1: Cadastro de produto"));
 add(corpo("Esta funcionalidade grava um novo produto no banco. O sistema valida o conteúdo recebido antes de gravar: nome, marca e código obrigatórios, preço e volume maiores que zero, quantidades numéricas e não negativas. Se o código já existir, a restrição de unicidade do banco rejeita a gravação e o usuário recebe uma mensagem. Corresponde ao RF02 e ao UC02."));
 add(codigo(snippets.cadastro, "Trecho 2: função produto_novo (app.py)"));
 nFig += 0;
-add(figura("tests/evidencias/ct04_cadastro_preenchido.png", 400, "Cadastro de produto: formulário preenchido"));
-add(figura("tests/evidencias/ct04_cadastro_valido.png", 400, "Cadastro de produto: produto gravado e exibido na lista"));
+add(figura("tests/evidencias/ct04_cadastro_preenchido.png", 480, "Cadastro de produto: formulário preenchido", { maxH: 400 }));
+add(figura("tests/evidencias/ct04_cadastro_valido.png", 540, "Cadastro de produto: produto gravado e exibido na lista"));
 
 add(h2("5.3 Funcionalidade 2: Registro de venda com baixa de estoque"));
-add(corpo("Esta funcionalidade lê o produto no banco, confere se há estoque suficiente e, em caso positivo, grava a venda e o item e reduz o estoque na mesma transação. Se algo falhar durante a gravação, o sistema desfaz tudo com rollback, para que o estoque nunca fique inconsistente. Corresponde aos requisitos RF04, RF05 e RF06 e ao UC04."));
+add(corpo("Esta funcionalidade lê o produto no banco e confere o estoque, para poder mostrar ao operador o saldo disponível. A baixa é feita com um UPDATE condicional (só altera se o estoque for maior ou igual à quantidade vendida), na mesma transação que grava a venda e o item. Assim, se duas vendas do mesmo produto chegarem ao mesmo tempo, só as que couberem no saldo são gravadas, e as demais recebem a mensagem de estoque insuficiente. Se algo falhar durante a gravação, o sistema desfaz tudo com rollback, para que o estoque nunca fique inconsistente. Corresponde aos requisitos RF04, RF05 e RF06 e ao UC04."));
 add(codigo(snippets.venda, "Trecho 3: função venda_nova (app.py)"));
-add(figura("tests/evidencias/ct09_venda_preenchida.png", 400, "Registro de venda: produto e quantidade informados"));
-add(figura("tests/evidencias/ct09_estoque_apos_venda.png", 400, "Lista de produtos após a venda: estoque do perfume reduzido de 20 para 16"));
+add(figura("tests/evidencias/ct09_venda_preenchida.png", 480, "Registro de venda: produto e quantidade informados", { maxH: 400 }));
+add(figura("tests/evidencias/ct09_estoque_apos_venda.png", 540, "Lista de produtos após a venda: estoque do perfume reduzido de 20 para 16"));
 add(h2("5.4 Funcionalidade complementar: relatório de vendas"));
 add(corpo("Além das duas funcionalidades obrigatórias, o sistema também implementa a consulta do relatório diário, que usa um SELECT com junção entre venda, item de venda e produto, filtrando pela data, e soma o total do dia (RF07)."));
-add(figura("tests/evidencias/ct11_relatorio.png", 400, "Relatório de vendas do dia com o total"));
+add(figura("tests/evidencias/ct11_relatorio.png", 540, "Relatório de vendas do dia com o total"));
 
 // ===== 6 Fase 5
 add(h1("6 FASE 5: TESTES"));
 add(h2("6.1 Plano de testes"));
-add(corpo("Foram definidos onze casos de teste sobre as funcionalidades programadas, incluindo situações de sucesso e de erro. O resultado esperado de cada caso foi escrito antes da execução. Os testes foram executados no sistema em funcionamento, controlando um navegador por script (Playwright), que também gerou os prints de evidência (SOMMERVILLE, 2018). Em todos os casos o resultado obtido foi igual ao esperado."));
+add(corpo("Foram definidos onze casos de teste sobre as funcionalidades programadas, incluindo situações de sucesso e de erro. O resultado esperado de cada caso foi escrito antes da execução. Os testes foram executados no sistema em funcionamento, controlando um navegador por script (Playwright), que também gerou os prints de evidência (SOMMERVILLE, 2018). Em todos os casos o resultado obtido foi igual ao esperado. Além dos casos da tabela, um teste automatizado de concorrência (arquivo tests/test_concorrencia.py) dispara oito vendas simultâneas do mesmo produto, com estoque de três unidades, e confirma que exatamente três são gravadas e que o estoque final é zero."));
 add(tabela("Plano e execução dos casos de teste",
   [800, 2500, 2300, 2371, 1100],
   ["ID", "O que foi testado", "Resultado esperado", "Resultado obtido", "Situação"],
@@ -377,42 +380,22 @@ add(tabela("Plano e execução dos casos de teste",
     r.ok ? "Conforme esperado" : "Falhou"])));
 add(h2("6.2 Evidências"));
 add(corpo("Os prints a seguir mostram a execução de cada caso de teste. A identificação de cada figura indica o caso correspondente."));
-// evidências em duas colunas
-const cabecalhoEv = [];
-const celulasEv = resultados.map((r) => {
+// evidências: uma por linha, em tamanho legível
+resultados.forEach((r) => {
   nFig += 1;
   const arq = `tests/evidencias/${r.print}`;
   const [w, h] = sizes[arq];
-  const larg = 270;
-  return [
-    new Paragraph({
-      alignment: AlignmentType.CENTER, spacing: { before: 100, after: 0 },
-      children: [new ImageRun({ type: "png",
-        data: fs.readFileSync(path.join(RAIZ, arq)),
-        transformation: { width: larg, height: Math.round(larg * h / w) },
-        altText: { title: r.id, description: r.descricao, name: `ev${nFig}` } })],
-    }),
-    new Paragraph({
-      alignment: AlignmentType.CENTER, spacing: { before: 40, after: 160 },
-      children: [run(`Figura ${nFig}: evidência do ${r.id}`, { size: 18, bold: true })],
-    }),
-  ];
-});
-const semBorda = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
-const sb = { top: semBorda, bottom: semBorda, left: semBorda, right: semBorda };
-const linhasEv = [];
-for (let i = 0; i < celulasEv.length; i += 2) {
-  linhasEv.push(new TableRow({
-    cantSplit: true,
-    children: [0, 1].map((k) => new TableCell({
-      width: { size: 4535, type: WidthType.DXA },
-      borders: sb,
-      children: celulasEv[i + k] || [new Paragraph({ children: [] })],
-    })),
+  const larg = Math.min(540, Math.round(440 * w / h));
+  add(new Paragraph({
+    alignment: AlignmentType.CENTER, keepNext: true,
+    spacing: { before: 140, after: 0 },
+    children: [new ImageRun({ type: "png",
+      data: fs.readFileSync(path.join(RAIZ, arq)),
+      transformation: { width: larg, height: Math.round(larg * h / w) },
+      altText: { title: r.id, description: r.descricao, name: `ev${nFig}` } })],
   }));
-}
-add(new Table({ width: { size: 9070, type: WidthType.DXA },
-  columnWidths: [4535, 4535], rows: linhasEv }));
+  add(legenda("Figura", nFig, `evidência do ${r.id}: ${r.descricao}`));
+});
 
 // ===== 7 Considerações finais
 add(h1("7 CONSIDERAÇÕES FINAIS"));

@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS produto (
     codigo TEXT NOT NULL UNIQUE,
     preco REAL NOT NULL CHECK (preco > 0),
     estoque INTEGER NOT NULL DEFAULT 0 CHECK (estoque >= 0),
-    estoque_minimo INTEGER NOT NULL DEFAULT 5
+    estoque_minimo INTEGER NOT NULL DEFAULT 5 CHECK (estoque_minimo >= 0)
 );
 
 CREATE TABLE IF NOT EXISTS venda (

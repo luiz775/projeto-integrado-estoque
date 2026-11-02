@@ -50,8 +50,14 @@ def msg(page):
     return el.inner_text().strip() if el else ""
 
 
-def foto(page, nome):
-    page.screenshot(path=os.path.join(EVID, nome + ".png"))
+def foto(page, nome, largura=520, altura=None):
+    """Tira o print só da área com conteúdo, em largura que deixa o texto legível."""
+    page.set_viewport_size({"width": largura, "height": 300})
+    caminho = os.path.join(EVID, nome + ".png")
+    total = page.evaluate("document.documentElement.scrollHeight")
+    corte = min(altura or total, total)
+    page.screenshot(path=caminho, full_page=True,
+                    clip={"x": 0, "y": 0, "width": largura, "height": corte})
     return nome + ".png"
 
 
@@ -90,7 +96,7 @@ try:
         registrar("CT03", "Login com usuário e senha válidos",
                   "Acesso liberado e lista de produtos exibida",
                   "Lista de produtos exibida" if ok else "Falha no acesso",
-                  ok, foto(page, "ct03_login_valido"))
+                  ok, foto(page, "ct03_login_valido", 800))
 
         # CT04 cadastro válido
         page.goto(URL + "/produtos/novo")
@@ -105,7 +111,7 @@ try:
         registrar("CT04", "Cadastrar produto com dados válidos",
                   "Produto salvo e exibido na lista",
                   f'Mensagem "{m}" e produto listado' if ok else "Produto não listado",
-                  ok, foto(page, "ct04_cadastro_valido"))
+                  ok, foto(page, "ct04_cadastro_valido", 800))
 
         # cadastra segundo produto com estoque baixo para uso nos testes seguintes
         page.goto(URL + "/produtos/novo")
@@ -123,7 +129,7 @@ try:
         ok = "obrigatórios" in m
         registrar("CT05", "Cadastrar produto sem preencher o nome",
                   "Mensagem de erro e produto não salvo",
-                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct05_sem_nome"))
+                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct05_sem_nome", 520, 640))
 
         # CT06 código duplicado
         page.goto(URL + "/produtos/novo")
@@ -135,7 +141,7 @@ try:
         ok = "Já existe" in m
         registrar("CT06", "Cadastrar produto com código já existente",
                   "Sistema impede o cadastro e avisa",
-                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct06_codigo_duplicado"))
+                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct06_codigo_duplicado", 520, 640))
 
         # CT07 preço inválido
         page.goto(URL + "/produtos/novo")
@@ -147,7 +153,7 @@ try:
         ok = "maior que zero" in m
         registrar("CT07", "Cadastrar produto com preço igual a zero",
                   "Mensagem de erro e produto não salvo",
-                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct07_preco_zero"))
+                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct07_preco_zero", 520, 640))
 
         # CT08 volume inválido
         page.goto(URL + "/produtos/novo")
@@ -159,7 +165,7 @@ try:
         ok = "volume deve ser maior" in m
         registrar("CT08", "Cadastrar perfume com volume igual a zero",
                   "Mensagem de erro e produto não salvo",
-                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct08_volume_zero"))
+                  f'Mensagem exibida: "{m}"', ok, foto(page, "ct08_volume_zero", 520, 640))
 
         # CT09 venda válida com baixa de estoque
         page.goto(URL + "/vendas/nova")
@@ -179,7 +185,7 @@ try:
                   "Venda salva e estoque do produto reduzido para 16",
                   f'Mensagem "{m}"; estoque atual exibido: 16' if ok
                   else f"Resultado inesperado: {m}",
-                  ok, foto(page, "ct09_estoque_apos_venda"))
+                  ok, foto(page, "ct09_estoque_apos_venda", 800))
 
         # CT10 venda acima do estoque
         page.goto(URL + "/vendas/nova")
@@ -199,17 +205,17 @@ try:
         registrar("CT11", "Consultar relatório de vendas do dia",
                   "Venda aparece na lista e total do dia é R$ 359,60",
                   "Venda listada e total R$ 359,60" if ok else "Total divergente",
-                  ok, foto(page, "ct11_relatorio"))
+                  ok, foto(page, "ct11_relatorio", 800))
 
         # extras para prints do relatório
         page.goto(URL + "/produtos")
-        foto(page, "tela_produtos")
+        foto(page, "tela_produtos", 800)
         page.goto(URL + "/produtos/novo")
         foto(page, "tela_cadastro")
         page.goto(URL + "/vendas/nova")
         foto(page, "tela_venda")
         ctx.close()
-        ctx2 = navegador.new_context(viewport={"width": 900, "height": 420})
+        ctx2 = navegador.new_context(viewport={"width": 520, "height": 300})
         p2 = ctx2.new_page()
         p2.goto(URL + "/login")
         foto(p2, "tela_login")

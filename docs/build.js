@@ -179,12 +179,12 @@ const add = (...x) => x.flat(Infinity).forEach((i) => conteudo.push(i));
 // ===== 1 Apresentação do tema
 add(h1("1 APRESENTAÇÃO DO TEMA"));
 add(h2("1.1 Sistema escolhido"));
-add(corpo("O sistema escolhido é um **Sistema de Controle de Estoque e Vendas para Perfumaria**, pensado para uma perfumaria pequena que está começando. Ele substitui o controle feito à mão, em caderno, por um sistema web simples, que cadastra os perfumes com marca e volume, controla as quantidades em estoque, registra as vendas e mostra um relatório do dia."));
+add(corpo("O sistema que escolhi é um **Sistema de Controle de Estoque e Vendas para Perfumaria**. Ele é para uma perfumaria pequena, que está começando. Hoje o controle é feito à mão, em caderno. O sistema web substitui isso: cadastra os perfumes com marca e volume, controla a quantidade em estoque, registra as vendas e mostra um relatório do dia."));
 add(h2("1.2 Justificativa"));
-add(corpo("Pequenos comerciantes, como os de uma perfumaria, costumam ter três problemas parecidos: vender um perfume que já acabou, não perceber a tempo que o estoque está baixo e não saber quanto foi vendido no dia. O sistema ataca exatamente esses pontos. A escolha partiu de um caso real: uma cliente que está montando uma perfumaria e hoje anota à mão as compras, as vendas e o estoque. O tema também é adequado para o projeto integrado porque permite aplicar, em um único problema real, o levantamento de requisitos, a modelagem com UML e MER, a prototipação de telas, a programação com banco de dados e os testes (SOMMERVILLE, 2018)."));
-add(corpo("Ficam fora do escopo, de propósito, a emissão de nota fiscal, o pagamento online, a integração com marketplaces, o registro de compras de mercadoria e o leitor de código de barras. Esses itens aumentariam muito a complexidade e não são necessários para demonstrar o processo completo de desenvolvimento em um semestre."));
+add(corpo("Quem tem uma loja pequena costuma ter três problemas: vender um perfume que já acabou, não perceber que o estoque está baixo e não saber quanto vendeu no dia. O sistema ajuda nesses três pontos. Escolhi esse tema porque conversei com uma cliente que está montando uma perfumaria e anota tudo à mão, as compras, as vendas e o estoque. Ele também serve bem para este projeto, porque permite usar tudo o que a disciplina pede: requisitos, UML e MER, telas, programação com banco de dados e testes (SOMMERVILLE, 2018)."));
+add(corpo("Deixei de fora a nota fiscal, o pagamento online, a integração com marketplaces, o registro de compras de mercadoria e o leitor de código de barras. Esses itens deixariam o projeto grande demais para o tempo que eu tinha, e não são necessários para mostrar o processo do começo ao fim."));
 add(h2("1.3 Validação do tema"));
-add(corpo("O Passo 0 exige que o tema atenda a três critérios. A Tabela 1 mostra como o sistema escolhido os cumpre."));
+add(corpo("O Passo 0 pede que o tema tenha três características. A Tabela 1 mostra como o sistema cumpre cada uma."));
 add(tabela("Validação do tema segundo os critérios do Passo 0",
   [2300, 3000, 3771],
   ["Critério", "Como o sistema atende", "Exemplos no sistema"],
@@ -200,7 +200,7 @@ add(tabela("Validação do tema segundo os critérios do Passo 0",
       "Aplicação web com Python, Flask e SQLite, sem pagamentos online e sem integrações externas."],
   ]));
 add(h2("1.4 Levantamento de informações"));
-add(corpo("O levantamento usou duas fontes, registradas na Tabela 2. A principal foi a conversa com uma cliente que está montando uma perfumaria e que hoje anota tudo à mão: as compras, as vendas e o estoque. A partir dessa conversa, propus a ideia de um sistema para facilitar a rotina dela. A segunda fonte foi a pesquisa de um sistema semelhante, o Sistema para Perfumarias (SISTEMA PARA PERFUMARIAS, [s. d.]), para observar que funções esse tipo de sistema oferece. O levantamento por conversa e por análise de sistemas existentes é prática clássica da engenharia de requisitos (SOMMERVILLE, 2018)."));
+add(corpo("Fiz o levantamento de duas formas, que estão na Tabela 2. A principal foi a conversa com uma cliente que está montando uma perfumaria e hoje anota tudo à mão: compras, vendas e estoque. Depois dessa conversa, ofereci a ideia de um sistema para facilitar a rotina dela. A outra forma foi olhar um sistema parecido, o Sistema para Perfumarias (SISTEMA PARA PERFUMARIAS, [s. d.]), para ver quais funções esse tipo de sistema tem. Conversar com o cliente e olhar sistemas que já existem são formas conhecidas de levantar requisitos (SOMMERVILLE, 2018)."));
 add(tabela("Fontes do levantamento e requisitos gerados",
   [2400, 4271, 2400],
   ["Fonte", "O que foi observado", "Requisitos gerados"],
@@ -221,7 +221,7 @@ add(tabela("Fontes do levantamento e requisitos gerados",
 
 // ===== 2 Fase 1
 add(h1("2 FASE 1: ANÁLISE DE REQUISITOS"));
-add(corpo("Segundo Sommerville (2018), os requisitos funcionais descrevem o que o sistema deve fazer, enquanto os não funcionais descrevem restrições e qualidades, como desempenho, segurança e usabilidade. Seguindo essa divisão, foram levantados oito requisitos funcionais e cinco não funcionais."));
+add(corpo("Segundo Sommerville (2018), os requisitos funcionais dizem o que o sistema deve fazer, e os não funcionais dizem como ele deve ser, por exemplo em desempenho, segurança e facilidade de uso. Seguindo isso, levantei oito requisitos funcionais e cinco não funcionais."));
 add(h2("2.1 Requisitos funcionais"));
 add(tabela("Requisitos funcionais", [900, 2400, 5771],
   ["ID", "Nome", "Descrição"],
@@ -246,7 +246,7 @@ add(tabela("Requisitos não funcionais", [900, 1900, 6271],
     ["RNF05", "Usabilidade", "As mensagens de erro e de sucesso devem ser claras e em português."],
   ]));
 add(h2("2.3 Diagrama de casos de uso"));
-add(corpo("O sistema tem um ator, o **Operador**, que representa o dono ou o atendente da perfumaria. Os dois usam as mesmas funções, por isso foram tratados como um único ator. A Figura 1 mostra os cinco casos de uso identificados (BOOCH; RUMBAUGH; JACOBSON, 2012)."));
+add(corpo("O sistema tem um só ator, o **Operador**, que é o dono ou o atendente da perfumaria. Os dois usam as mesmas funções, por isso juntei os dois em um ator só. A Figura 1 mostra os cinco casos de uso (BOOCH; RUMBAUGH; JACOBSON, 2012)."));
 add(figura("docs/img/casos_de_uso.png", 440, "Diagrama de casos de uso"));
 add(h2("2.4 Descrição dos casos de uso"));
 const uc = (id, nome, objetivo, pre, passos, alt) => [
@@ -281,12 +281,12 @@ add(uc("UC05", "Consultar relatório de vendas do dia", "Saber o que foi vendido
 
 // ===== 3 Fase 2
 add(h1("3 FASE 2: MODELAGEM DO SISTEMA"));
-add(corpo("A modelagem parte dos requisitos para definir as classes do sistema, as entidades do banco de dados e a troca de mensagens do caso de uso principal. Os diagramas seguem a notação UML descrita por Booch, Rumbaugh e Jacobson (2012), e o modelo de dados segue os conceitos de entidade e relacionamento apresentados por Elmasri e Navathe (2018)."));
+add(corpo("A modelagem parte dos requisitos. Com ela defini as classes do sistema, as tabelas do banco de dados e as mensagens do caso de uso principal. Os diagramas seguem a UML descrita por Booch, Rumbaugh e Jacobson (2012), e o modelo de dados segue o que Elmasri e Navathe (2018) explicam sobre entidades e relacionamentos."));
 add(h2("3.1 Diagrama de classes"));
-add(corpo("Foram identificadas quatro classes. **Usuario** representa quem acessa o sistema, **Produto** guarda os dados do perfume e do estoque (nome, marca, volume, preço e quantidade), **Venda** representa a operação de venda e **ItemVenda** liga a venda ao produto vendido, guardando a quantidade e o preço praticado no momento. O preço unitário é copiado para o item para que o histórico não mude se o preço do produto for alterado depois."));
+add(corpo("Defini quatro classes. **Usuario** é quem entra no sistema. **Produto** guarda os dados do perfume e do estoque (nome, marca, volume, preço e quantidade). **Venda** é a venda em si. **ItemVenda** liga a venda ao produto vendido e guarda a quantidade e o preço da hora da venda. O preço é copiado para o item para que as vendas antigas não mudem se o preço do produto mudar depois."));
 add(figura("docs/img/diagrama_classes.png", 560, "Diagrama de classes"));
 add(h2("3.2 Modelo Entidade Relacionamento"));
-add(corpo("O MER tem quatro entidades. Um usuário realiza várias vendas, uma venda contém um ou mais itens e um produto pode aparecer em vários itens. O relacionamento entre venda e produto é de muitos para muitos, resolvido pela entidade ITEM_VENDA."));
+add(corpo("O MER tem quatro entidades. Um usuário faz várias vendas, uma venda tem um ou mais itens e um produto pode estar em vários itens. Venda e produto têm relação de muitos para muitos, e a entidade ITEM_VENDA resolve isso."));
 add(figura("docs/img/mer.png", 560, "Modelo Entidade Relacionamento (MER)"));
 add(h2("3.3 Dicionário de dados"));
 const dd = (nome, linhas) => tabela(`Dicionário de dados da entidade ${nome}`,
@@ -321,65 +321,65 @@ add(dd("ITEM_VENDA", [
   ["preco_unitario", "REAL", "Preço do produto no momento da venda.", "Sim"],
 ]));
 add(h2("3.4 Diagrama de sequência"));
-add(corpo("O diagrama de sequência foi feito para o caso de uso principal, **Registrar venda** (UC04). Ele mostra que o sistema busca o produto, confere o estoque, faz a baixa com um UPDATE condicional e grava a venda na mesma transação. Quando o estoque é insuficiente, o UPDATE não altera nenhuma linha e a venda é desfeita, sem gravar nada."));
+add(corpo("Fiz o diagrama de sequência do caso de uso principal, **Registrar venda** (UC04). Nele o sistema busca o produto, confere o estoque, desconta a quantidade com um UPDATE condicional e grava a venda na mesma transação. Se o estoque não for suficiente, o UPDATE não altera nada e a venda é desfeita, sem gravar nada."));
 add(figura("docs/img/diagrama_sequencia.png", 580, "Diagrama de sequência do caso de uso Registrar venda"));
 add(h2("3.5 Consistência entre os modelos"));
-add(corpo("Cada classe do diagrama corresponde a uma entidade do MER e a uma tabela do dicionário de dados, com os mesmos atributos. Os requisitos RF02 e RF03 são atendidos pela classe Produto, RF04 a RF06 pelas classes Venda, ItemVenda e Produto, RF07 pela consulta que une Venda, ItemVenda e Produto, e RF01 pela classe Usuario. O diagrama de sequência usa os mesmos objetos e a mesma regra de negócio descrita no requisito RF06."));
+add(corpo("Cada classe do diagrama corresponde a uma entidade do MER e a uma tabela do dicionário de dados, com os mesmos atributos. Os requisitos RF02 e RF03 ficam com a classe Produto. RF04 a RF06 ficam com Venda, ItemVenda e Produto. O RF07 usa uma consulta que junta Venda, ItemVenda e Produto, e o RF01 fica com Usuario. O diagrama de sequência usa os mesmos objetos e a mesma regra do requisito RF06."));
 
 // ===== 4 Fase 3
 add(h1("4 FASE 3: PROTOTIPAGEM DE TELAS"));
-add(corpo("Antes de programar, foram desenhados wireframes de quatro telas, com base nos requisitos. Eles mostram os campos e os botões, sem preocupação com o visual. As telas finais do sistema aparecem na seção 5 e na seção 6."));
+add(corpo("Antes de programar, desenhei quatro telas simples (wireframes), com base nos requisitos. Elas mostram só os campos e os botões, sem se preocupar com o visual. As telas finais do sistema aparecem nas seções 5 e 6."));
 add(h2("4.1 Tela 1: Login"));
 add(figura("docs/img/wf_login.png", 270, "Wireframe da tela de login"));
-add(corpo("Permite que o operador entre no sistema. Ele informa login e senha e clica em Entrar. Atende ao requisito RF01 e ao UC01."));
+add(corpo("Nessa tela o operador entra no sistema. Ele digita login e senha e clica em Entrar. Atende ao requisito RF01 e ao UC01."));
 add(h2("4.2 Tela 2: Cadastro de produto"));
 add(figura("docs/img/wf_cadastro.png", 230, "Wireframe da tela de cadastro de produto"));
-add(corpo("Serve para incluir um produto. O operador preenche nome, marca, volume, código, preço, estoque inicial e estoque mínimo, e clica em Salvar. Atende ao requisito RF02 e ao UC02."));
+add(corpo("Nessa tela o operador cadastra um perfume. Ele preenche nome, marca, volume, código, preço, estoque inicial e estoque mínimo, e clica em Salvar. Atende ao requisito RF02 e ao UC02."));
 add(h2("4.3 Tela 3: Registrar venda"));
 add(figura("docs/img/wf_venda.png", 270, "Wireframe da tela de registro de venda"));
-add(corpo("Serve para vender. O operador escolhe o produto em uma lista, informa a quantidade e confirma a venda. Atende aos requisitos RF04 a RF06 e ao UC04."));
+add(corpo("Nessa tela o operador faz a venda. Ele escolhe o produto numa lista, digita a quantidade e confirma. Atende aos requisitos RF04 a RF06 e ao UC04."));
 add(h2("4.4 Tela 4: Lista de produtos e estoque"));
 add(figura("docs/img/wf_lista.png", 250, "Wireframe da tela de lista de produtos e estoque"));
-add(corpo("Mostra todos os produtos com marca, volume, preço, quantidade e situação, destacando os de estoque baixo. É a tela inicial depois do login. Atende ao requisito RF03 e ao UC03. O relatório de vendas (UC05) segue o mesmo padrão de tabela."));
+add(corpo("Essa tela mostra todos os produtos com marca, volume, preço, quantidade e situação, e destaca os que estão com estoque baixo. É a primeira tela depois do login. Atende ao requisito RF03 e ao UC03. O relatório de vendas (UC05) segue o mesmo formato de tabela."));
 
 // ===== 5 Fase 4
 add(h1("5 FASE 4: DESENVOLVIMENTO"));
 add(h2("5.1 Tecnologias e estrutura"));
-add(corpo("O sistema foi desenvolvido em **Python 3** com o microframework **Flask** (FLASK, 2026), banco de dados **SQLite** (SQLITE, 2026) e páginas HTML com CSS simples. O banco é criado a partir do arquivo schema.sql, que reproduz as quatro tabelas do MER, com as restrições de integridade no próprio banco. O código está versionado em repositório Git, no endereço a seguir."));
+add(corpo("Usei **Python 3** com o **Flask** (FLASK, 2026), o banco de dados **SQLite** (SQLITE, 2026) e páginas em HTML com CSS simples. O banco é criado pelo arquivo schema.sql, que tem as quatro tabelas do MER e as regras de validação dentro do próprio banco. O código está no Git, no endereço abaixo."));
 add(new Paragraph({
   alignment: AlignmentType.CENTER, spacing: { before: 60, after: 160 },
   children: [run("Repositório no GitHub: https://github.com/luiz775/projeto-integrado-estoque", { bold: true })],
 }));
-add(corpo("Para executar, basta instalar as dependências com pip install -r requirements.txt e rodar python app.py. No primeiro uso, o sistema cria o banco e um usuário administrador de demonstração (login admin)."));
+add(corpo("Para rodar, é só instalar as dependências com pip install -r requirements.txt e executar python app.py. Na primeira vez, o sistema cria o banco e um usuário de demonstração (login admin)."));
 add(codigo(snippets.schema, "Trecho 1: script do banco de dados (schema.sql)"));
 
 add(h2("5.2 Funcionalidade 1: Cadastro de produto"));
-add(corpo("Esta funcionalidade grava um novo produto no banco. O sistema valida o conteúdo recebido antes de gravar: nome, marca e código obrigatórios, preço e volume maiores que zero, quantidades numéricas e não negativas. Se o código já existir, a restrição de unicidade do banco rejeita a gravação e o usuário recebe uma mensagem. Corresponde ao RF02 e ao UC02."));
+add(corpo("Essa funcionalidade grava um produto novo no banco. Antes de gravar, o sistema confere os dados: nome, marca e código são obrigatórios, preço e volume têm que ser maiores que zero, e as quantidades têm que ser números que não sejam negativos. Se o código já existir, o próprio banco recusa e o usuário vê uma mensagem. Corresponde ao RF02 e ao UC02."));
 add(codigo(snippets.cadastro, "Trecho 2: função produto_novo (app.py)"));
 nFig += 0;
 add(figura("tests/evidencias/ct04_cadastro_preenchido.png", 480, "Cadastro de produto: formulário preenchido", { maxH: 400 }));
 add(figura("tests/evidencias/ct04_cadastro_valido.png", 540, "Cadastro de produto: produto gravado e exibido na lista"));
 
 add(h2("5.3 Funcionalidade 2: Registro de venda com baixa de estoque"));
-add(corpo("Esta funcionalidade lê o produto no banco e confere o estoque, para poder mostrar ao operador o saldo disponível. A baixa é feita com um UPDATE condicional (só altera se o estoque for maior ou igual à quantidade vendida), na mesma transação que grava a venda e o item. Assim, se duas vendas do mesmo produto chegarem ao mesmo tempo, só as que couberem no saldo são gravadas, e as demais recebem a mensagem de estoque insuficiente. Se algo falhar durante a gravação, o sistema desfaz tudo com rollback, para que o estoque nunca fique inconsistente. Corresponde aos requisitos RF04, RF05 e RF06 e ao UC04."));
+add(corpo("Essa funcionalidade busca o produto no banco e confere o estoque, para mostrar ao operador quanto tem disponível. O estoque é descontado com um UPDATE condicional, que só altera se o estoque for maior ou igual à quantidade vendida. Isso acontece na mesma transação que grava a venda e o item. Assim, se duas vendas do mesmo produto acontecerem ao mesmo tempo, só entram as que cabem no estoque, e as outras recebem a mensagem de estoque insuficiente. Se algo der errado ao gravar, o sistema desfaz tudo (rollback), e o estoque não fica errado. Corresponde aos requisitos RF04, RF05 e RF06 e ao UC04."));
 add(codigo(snippets.venda, "Trecho 3: função venda_nova (app.py)"));
 add(figura("tests/evidencias/ct09_venda_preenchida.png", 480, "Registro de venda: produto e quantidade informados", { maxH: 400 }));
 add(figura("tests/evidencias/ct09_estoque_apos_venda.png", 540, "Lista de produtos após a venda: estoque do perfume reduzido de 20 para 16"));
 add(h2("5.4 Funcionalidade complementar: relatório de vendas"));
-add(corpo("Além das duas funcionalidades obrigatórias, o sistema também implementa a consulta do relatório diário, que usa um SELECT com junção entre venda, item de venda e produto, filtrando pela data, e soma o total do dia (RF07)."));
+add(corpo("Além das duas funcionalidades obrigatórias, o sistema tem o relatório de vendas do dia. Ele usa um SELECT que junta venda, item de venda e produto, filtra pela data e soma o total do dia (RF07)."));
 add(figura("tests/evidencias/ct11_relatorio.png", 540, "Relatório de vendas do dia com o total"));
 
 // ===== 6 Fase 5
 add(h1("6 FASE 5: TESTES"));
 add(h2("6.1 Plano de testes"));
-add(corpo("Foram definidos onze casos de teste sobre as funcionalidades programadas, incluindo situações de sucesso e de erro. O resultado esperado de cada caso foi escrito antes da execução. Os testes foram executados no sistema em funcionamento, controlando um navegador por script (Playwright), que também gerou os prints de evidência (SOMMERVILLE, 2018). Em todos os casos o resultado obtido foi igual ao esperado. Além dos casos da tabela, um teste automatizado de concorrência (arquivo tests/test_concorrencia.py) dispara oito vendas simultâneas do mesmo produto, com estoque de três unidades, e confirma que exatamente três são gravadas e que o estoque final é zero."));
+add(corpo("Montei onze casos de teste para as funcionalidades programadas, com situações que dão certo e situações de erro. O resultado esperado de cada caso foi escrito antes de executar. Os testes rodam com um script que abre o sistema no navegador (Playwright) e tira os prints de evidência (SOMMERVILLE, 2018). Em todos os casos, o resultado foi igual ao esperado. Também existe um teste de concorrência (arquivo tests/test_concorrencia.py): ele faz oito vendas ao mesmo tempo do mesmo produto, com três unidades em estoque, e confirma que só três são gravadas e que o estoque termina em zero."));
 add(tabela("Plano e execução dos casos de teste",
   [800, 2500, 2300, 2371, 1100],
   ["ID", "O que foi testado", "Resultado esperado", "Resultado obtido", "Situação"],
   resultados.map((r) => [r.id, r.descricao, r.esperado, r.obtido,
     r.ok ? "Conforme esperado" : "Falhou"])));
 add(h2("6.2 Evidências"));
-add(corpo("Os prints a seguir mostram a execução de cada caso de teste. A identificação de cada figura indica o caso correspondente."));
+add(corpo("Os prints abaixo mostram cada caso de teste sendo executado. A legenda de cada figura diz qual é o caso."));
 // evidências: uma por linha, em tamanho legível
 resultados.forEach((r) => {
   nFig += 1;
@@ -399,11 +399,11 @@ resultados.forEach((r) => {
 
 // ===== 7 Considerações finais
 add(h1("7 CONSIDERAÇÕES FINAIS"));
-add(corpo("O projeto me permitiu percorrer o ciclo completo de desenvolvimento de um sistema: do levantamento de requisitos até um protótipo testado. Na prática, ficou claro como cada etapa alimenta a seguinte. Os requisitos definiram as classes, as classes viraram tabelas, as tabelas sustentaram o código e os requisitos voltaram a aparecer nos casos de teste."));
-add(corpo("A parte mais difícil foi desenhar o que a cliente realmente precisa. Ela descreve a rotina em termos do dia a dia, como anotar compra, venda e estoque à mão, e foi preciso transformar isso em funções concretas, como cadastrar produto, registrar venda e baixar o estoque, além de decidir o que caberia no escopo e o que ficaria para depois."));
-add(corpo("Entre os aprendizados, destaco três. Primeiro, a importância de guardar o preço unitário no item de venda, para que o histórico de vendas não mude quando o preço do produto for alterado. Segundo, a vantagem de colocar regras de integridade no próprio banco, como preço positivo e código único, além das validações no código. Terceiro, o valor de testar também os caminhos de erro, como venda acima do estoque e cadastro duplicado. O alerta de estoque baixo, que eu já conhecia de outros sistemas, foi aplicado aqui e ajuda justamente a evitar a falta de produto."));
-add(corpo("Uma dificuldade encontrada durante os testes foi a mensagem de confirmação da venda, que mostrava o valor total com formatação errada. O defeito só ficou evidente porque o teste passou a conferir o texto exato da mensagem, e foi corrigido com o mesmo formatador de moeda usado nas telas. Outra dificuldade foi decidir o tamanho do escopo: itens como nota fiscal e venda com vários produtos no mesmo carrinho foram deixados de fora para manter o projeto viável."));
-add(corpo("Como limitações, o protótipo registra um produto por venda, tem um único perfil de usuário, não registra a compra de mercadoria e não oferece edição ou exclusão de produtos. Se eu fosse refazer, incluiria a entrada de mercadoria e o leitor de código de barras, que surgiu como ideia durante o levantamento. Como evolução, o mais valioso seria permitir que o cliente compre com o próprio cartão pelo site, usando um meio de pagamento online como o Mercado Pago, cuja integração por chave de API eu já conheço. Também ficam como próximos passos a venda com vários itens, os perfis de acesso e o relatório por período."));
+add(corpo("Com este projeto passei pelo processo completo de fazer um sistema, do levantamento dos requisitos até um protótipo testado. Deu para ver que cada etapa ajuda a próxima: os requisitos definiram as classes, as classes viraram tabelas, as tabelas sustentaram o código e os requisitos voltaram nos casos de teste."));
+add(corpo("A parte mais difícil foi desenhar o que a cliente realmente precisa. Ela explica a rotina do jeito do dia a dia, anotando compra, venda e estoque à mão, e foi preciso transformar isso em funções, como cadastrar produto, registrar venda e descontar o estoque. Também foi difícil decidir o que entrava no projeto e o que ficava para depois."));
+add(corpo("Aprendi três coisas principais. A primeira é guardar o preço no item da venda, para as vendas antigas não mudarem quando o preço do produto mudar. A segunda é colocar regras também no banco, como preço maior que zero e código único, além de conferir no código. A terceira é testar os casos de erro, como vender mais do que tem em estoque e cadastrar um código repetido. O alerta de estoque baixo, que eu já conhecia de outros sistemas, foi usado aqui para ajudar a não deixar faltar produto."));
+add(corpo("Uma dificuldade nos testes foi a mensagem de confirmação da venda, que mostrava o total com a formatação errada. O defeito só apareceu porque o teste passou a conferir o texto exato da mensagem, e foi corrigido usando o mesmo formatador de moeda das telas. Outra dificuldade foi o tamanho do projeto: a nota fiscal e a venda com vários produtos no mesmo carrinho ficaram de fora para dar tempo de terminar."));
+add(corpo("Sobre as limitações: o sistema registra um produto por venda, tem um só tipo de usuário, não registra a compra de mercadoria e não deixa editar nem excluir produtos. Se eu fosse refazer, colocaria a entrada de mercadoria e o leitor de código de barras, que apareceu como ideia durante o levantamento. Como próximo passo, o mais útil seria o cliente poder comprar com o próprio cartão pelo site, usando um meio de pagamento online como o Mercado Pago, cuja integração por chave de API eu já conheço. Também ficam a venda com vários itens, os tipos de usuário e o relatório por período."));
 
 // ===== Referências
 add(h1("REFERÊNCIAS"));
